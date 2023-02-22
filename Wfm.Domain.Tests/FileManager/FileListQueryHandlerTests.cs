@@ -32,7 +32,7 @@ public class FileListQueryHandlerTests
     {
         var query = new FileListQuery(0, "");
 
-        var result = _sut.Handle(query);
+        var result = _sut!.Handle(query);
 
         Assert.IsNotNull(result);
     }
