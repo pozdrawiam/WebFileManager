@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Options;
-using Wfm.Domain;
+using Wfm.Domain.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +11,7 @@ var app = builder.Build();
 
 app.MapGet("/", (IOptions<StorageOptions> opts) => 
 {
-    return System.IO.Directory.Exists(opts.Value.Locations[0].Path);
+    return opts.Value;
 });
 
 app.Run();
