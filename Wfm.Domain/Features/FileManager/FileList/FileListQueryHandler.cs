@@ -21,8 +21,9 @@ public class FileListQueryHandler
         if (query.LocationIndex > locations.Length)
             throw new Exception("Invalid locationIndex");
 
-        string path = locations[query.LocationIndex].Path;
-
+        string locationPath = locations[query.LocationIndex].Path;
+        string path = Path.Join(locationPath, query.RelativePath);
+        
         var entries = _fileSystemService.GetEntries(path);
 
         return new FileListQueryResult(entries);
