@@ -5,6 +5,8 @@ using Wfm.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllersWithViews();
+
 builder.Services.Configure<StorageOptions>(
     builder.Configuration.GetSection(StorageOptions.Storage)
 );
@@ -16,9 +18,15 @@ builder.Services.AddTransient<GetFilesHandler>();
 
 var app = builder.Build();
 
-app.MapGet("/", (GetFilesHandler handl) => 
-{
-    return handl.Handle(new GetFilesQuery(0, "New folder"));
-});
+app.UseExceptionHandler("/Home/Error");
+app.UseHsts();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
