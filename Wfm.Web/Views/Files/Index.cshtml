@@ -1,0 +1,19 @@
+@model Wfm.Domain.Features.FileManager.GetFiles.GetFilesResult
+
+@{
+    ViewData["Title"] = "Files";
+}
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+    </tr>
+    @foreach (var entry in Model.Entries)
+    {
+        <tr>
+            <td>@entry.Name</td>
+            <td>@entry.Type</td>
+        </tr>
+    }
+</table>
