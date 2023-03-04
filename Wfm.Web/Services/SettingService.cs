@@ -6,12 +6,10 @@ namespace Wfm.Web.Services;
 
 public class SettingService : ISettingService
 {
-    private readonly StorageOptions _storageOptions;
-    
     public SettingService(IOptions<StorageOptions> storageOptions)
     {
-        _storageOptions = storageOptions.Value;
+        StorageOptions = storageOptions.Value;
     }
-    
-    public StorageOptions StorageOptions => _storageOptions;
+
+    public StorageOptions StorageOptions { get; }
 }

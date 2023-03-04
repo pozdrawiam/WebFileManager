@@ -1,8 +1,15 @@
-﻿@{
+﻿@model Dictionary<int, string>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Hello world.</p>
+    <h1 class="display-4">Locations</h1>
+    <ul>
+        @foreach (KeyValuePair<int, string> locationInfo in Model)
+        {
+            <li>@Html.ActionLink(locationInfo.Value, "Index", "Files", new { LocationIndex = locationInfo.Key })</li>
+        }
+    </ul>
 </div>

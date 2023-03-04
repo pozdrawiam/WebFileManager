@@ -1,25 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
-using Wfm.Domain.Features.FileManager.GetFiles;
+using Wfm.Domain.Services;
+using Wfm.Domain.Settings;
 
 namespace Wfm.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly GetFilesHandler _getFilesHandler;
+    private readonly ISettingService _settingService;
 
-    public HomeController(GetFilesHandler getFilesHandler)
+    public HomeController(ISettingService settingService)
     {
-        _getFilesHandler = getFilesHandler;
+        _settingService = settingService;
     }
 
     public IActionResult Index()
     {
-        return View();
-    }
+        LocationOptions[] locations = _settingService.StorageOptions.Locations;
 
-    public object Test()
-    {
-        return _getFilesHandler.Handle(new GetFilesQuery(0, "New folder"));
+        Dictionary<int, string> locationInfos = locations.Select((obj, index) => new { Key = index, Value = obj.Name! })
+            .ToDictionary(x => x.Key, x => x.Value);
+
+        return View(locationInfos);
     }
 
     public IActionResult Error()
