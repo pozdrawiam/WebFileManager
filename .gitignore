@@ -351,3 +351,6 @@ MigrationBackup/
 
 # VS Code
 .vscode/
+
+# AppSettings
+Wfm.Web/appsettings.Development.json
