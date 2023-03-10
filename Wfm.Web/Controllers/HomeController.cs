@@ -17,6 +17,9 @@ public class HomeController : Controller
     {
         LocationOptions[] locations = _settingService.StorageOptions.Locations;
 
+        if (locations.Length == 1)
+            return RedirectToAction(nameof(FilesController.Index), "Files", new { LocationIndex = 0 });
+
         Dictionary<int, string> locationInfos = locations.Select((obj, index) => new { Key = index, Value = obj.Name! })
             .ToDictionary(x => x.Key, x => x.Value);
 
