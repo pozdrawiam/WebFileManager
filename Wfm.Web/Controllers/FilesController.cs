@@ -24,6 +24,8 @@ public class FilesController : Controller
     public IActionResult Index(GetFilesQuery query)
     {
         ViewBag.LocationName = GetLocationName(query.LocationIndex);
+        ViewBag.BackPath = Path.GetDirectoryName(query.RelativePath);
+
         GetFilesResult result = _getFilesHandler.Handle(query);
 
         return View(result);

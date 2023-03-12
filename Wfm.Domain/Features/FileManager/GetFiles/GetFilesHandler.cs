@@ -1,3 +1,4 @@
+using Wfm.Domain.Core.FileSystem;
 using Wfm.Domain.Services;
 
 namespace Wfm.Domain.Features.FileManager.GetFiles;
@@ -23,7 +24,8 @@ public class GetFilesHandler
         string locationPath = locations[query.LocationIndex].Path;
         string path = Path.Join(locationPath, query.RelativePath);
 
-        var entries = _fileSystemService.GetEntries(path);
+        IEnumerable<FileSystemEntry> entries = _fileSystemService.GetEntries(path)
+            .Select(x => x with { RelativePath = Path.Join(query.RelativePath, x.RelativePath) });
 
         return new GetFilesResult(query.LocationIndex, query.RelativePath, entries);
     }

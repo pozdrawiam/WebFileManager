@@ -6,29 +6,53 @@
     ViewData["Title"] = "Files";
 }
 
+<hgroup>
 <h1 class="display-4">@ViewBag.LocationName</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var entry in Model.Entries)
-        {
+<p>
+    @if (ViewBag.BackPath != null)
+    {
+        @Html.ActionLink("Back", "Index", "Files", new { LocationIndex = Model.LocationIndex, RelativePath =
+    ViewBag.BackPath })
+    }
+</p>
+</hgroup>
+
+<figure>
+    <table role="grid">
+        <thead>
             <tr>
-                <td>@entry.Name</td>
-                <td>@entry.Type</td>
-                <td>
-                    @if (entry.Type == FileSystemEntryType.File)
-                    {
-                        @Html.ActionLink("Download", "Download", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })
-                    }
-                </td>
+                <th>Name</th>
+                <th>Type</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var entry in Model.Entries)
+            {
+                <tr>
+                    <td>
+
+                        @if (entry.Type == FileSystemEntryType.Directory)
+                        {
+                            @Html.ActionLink(entry.Name, "Index", "Files", new { LocationIndex = Model.LocationIndex,
+                    RelativePath = entry.RelativePath })
+                        }
+                        else
+                        {
+                            @entry.Name
+                        }
+                    </td>
+                    <td>@entry.Type</td>
+                    <td>
+                        @if (entry.Type == FileSystemEntryType.File)
+                        {
+                            @Html.ActionLink("Download", "Download", "Files", new { LocationIndex = Model.LocationIndex,
+                    RelativeFilePath = entry.RelativePath })
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</figure>
