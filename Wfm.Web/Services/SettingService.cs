@@ -12,4 +12,9 @@ public class SettingService : ISettingService
     }
 
     public StorageOptions StorageOptions { get; }
+
+    public LocationOptions? GetLocationByIndex(int index)
+    {
+        return StorageOptions.Locations?.ElementAt(index);
+    }
 }

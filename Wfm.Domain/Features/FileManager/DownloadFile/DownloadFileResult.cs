@@ -1,3 +1,3 @@
 namespace Wfm.Domain.Features.FileManager.DownloadFile;
 
-public record DownloadFileResult;
+public record DownloadFileResult(string FilePath);

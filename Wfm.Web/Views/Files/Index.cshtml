@@ -1,3 +1,5 @@
+@using Wfm.Domain.Core.FileSystem
+
 @model Wfm.Domain.Features.FileManager.GetFiles.GetFilesResult
 
 @{
@@ -7,15 +9,26 @@
 <h1 class="display-4">@ViewBag.LocationName</h1>
 
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-    </tr>
-    @foreach (var entry in Model.Entries)
-    {
+    <thead>
         <tr>
-            <td>@entry.Name</td>
-            <td>@entry.Type</td>
+            <th>Name</th>
+            <th>Type</th>
+            <th></th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var entry in Model.Entries)
+        {
+            <tr>
+                <td>@entry.Name</td>
+                <td>@entry.Type</td>
+                <td>
+                    @if (entry.Type == FileSystemEntryType.File)
+                    {
+                        @Html.ActionLink("Download", "Download", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
