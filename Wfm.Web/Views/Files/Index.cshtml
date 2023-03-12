@@ -12,8 +12,7 @@
 <p>
     @if (ViewBag.BackPath != null)
     {
-        @Html.ActionLink("Back", "Index", "Files", new { LocationIndex = Model.LocationIndex, RelativePath =
-    ViewBag.BackPath })
+        @Html.ActionLink("Back", "Index", "Files", new { LocationIndex = Model.LocationIndex, RelativePath = ViewBag.BackPath })
     }
 </p>
 </hgroup>
@@ -24,6 +23,7 @@
             <tr>
                 <th>Name</th>
                 <th>Type</th>
+                <th>Size</th>
                 <th></th>
             </tr>
         </thead>
@@ -35,8 +35,7 @@
 
                         @if (entry.Type == FileSystemEntryType.Directory)
                         {
-                            @Html.ActionLink(entry.Name, "Index", "Files", new { LocationIndex = Model.LocationIndex,
-                    RelativePath = entry.RelativePath })
+                            @Html.ActionLink(entry.Name, "Index", "Files", new { LocationIndex = Model.LocationIndex, RelativePath = entry.RelativePath })
                         }
                         else
                         {
@@ -47,8 +46,14 @@
                     <td>
                         @if (entry.Type == FileSystemEntryType.File)
                         {
-                            @Html.ActionLink("Download", "Download", "Files", new { LocationIndex = Model.LocationIndex,
-                    RelativeFilePath = entry.RelativePath })
+                            @entry.Size
+                            <text> B</text>
+                        }
+                    </td>
+                    <td>
+                        @if (entry.Type == FileSystemEntryType.File)
+                        {
+                            @Html.ActionLink("Download", "Download", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })
                         }
                     </td>
                 </tr>
