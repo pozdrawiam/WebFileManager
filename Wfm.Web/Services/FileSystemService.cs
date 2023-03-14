@@ -1,5 +1,4 @@
-using Wfm.Domain.Core.FileSystem;
-using Wfm.Domain.Services;
+using Wfm.Domain.Services.FileSystem;
 
 namespace Wfm.Web.Services;
 

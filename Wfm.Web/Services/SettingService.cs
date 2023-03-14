@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Options;
-using Wfm.Domain.Services;
-using Wfm.Domain.Settings;
+using Wfm.Domain.Services.Settings;
 
 namespace Wfm.Web.Services;
 

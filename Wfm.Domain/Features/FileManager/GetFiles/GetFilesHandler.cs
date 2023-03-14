@@ -1,5 +1,5 @@
-using Wfm.Domain.Core.FileSystem;
-using Wfm.Domain.Services;
+using Wfm.Domain.Services.FileSystem;
+using Wfm.Domain.Services.Settings;
 
 namespace Wfm.Domain.Features.FileManager.GetFiles;
 

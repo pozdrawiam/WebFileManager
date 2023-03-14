@@ -1,5 +1,5 @@
-using Wfm.Domain.Services;
-using Wfm.Domain.Settings;
+using Wfm.Domain.Services.FileSystem;
+using Wfm.Domain.Services.Settings;
 
 namespace Wfm.Domain.Features.FileManager.DownloadFile;
 

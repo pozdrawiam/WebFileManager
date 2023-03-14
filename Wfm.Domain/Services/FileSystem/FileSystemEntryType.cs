@@ -1,4 +1,4 @@
-namespace Wfm.Domain.Core.FileSystem;
+namespace Wfm.Domain.Services.FileSystem;
 
 public enum FileSystemEntryType
 {

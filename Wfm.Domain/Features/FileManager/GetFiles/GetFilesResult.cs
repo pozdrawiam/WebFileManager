@@ -1,4 +1,4 @@
-using Wfm.Domain.Core.FileSystem;
+using Wfm.Domain.Services.FileSystem;
 
 namespace Wfm.Domain.Features.FileManager.GetFiles;
 

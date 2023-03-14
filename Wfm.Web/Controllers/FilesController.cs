@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Wfm.Domain.Features.FileManager.DownloadFile;
 using Wfm.Domain.Features.FileManager.GetFiles;
-using Wfm.Domain.Services;
+using Wfm.Domain.Services.Settings;
 
 namespace Wfm.Web.Controllers;
 

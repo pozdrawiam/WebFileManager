@@ -1,7 +1,7 @@
 using Wfm.Domain.Features.FileManager.DownloadFile;
 using Wfm.Domain.Features.FileManager.GetFiles;
-using Wfm.Domain.Services;
-using Wfm.Domain.Settings;
+using Wfm.Domain.Services.FileSystem;
+using Wfm.Domain.Services.Settings;
 using Wfm.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);

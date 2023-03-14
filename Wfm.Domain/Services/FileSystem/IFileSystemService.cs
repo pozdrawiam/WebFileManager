@@ -1,6 +1,4 @@
-using Wfm.Domain.Core.FileSystem;
-
-namespace Wfm.Domain.Services;
+namespace Wfm.Domain.Services.FileSystem;
 
 public interface IFileSystemService
 {

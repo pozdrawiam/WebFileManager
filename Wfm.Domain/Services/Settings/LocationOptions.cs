@@ -1,4 +1,4 @@
-namespace Wfm.Domain.Settings;
+namespace Wfm.Domain.Services.Settings;
 
 public record LocationOptions
 {

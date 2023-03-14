@@ -1,6 +1,4 @@
-using Wfm.Domain.Settings;
-
-namespace Wfm.Domain.Services;
+namespace Wfm.Domain.Services.Settings;
 
 public interface ISettingService
 {
