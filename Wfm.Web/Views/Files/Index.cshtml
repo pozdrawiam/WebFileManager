@@ -41,6 +41,7 @@
                 <th>Name</th>
                 <th>Type</th>
                 <th>Size</th>
+                <th>Modified</th>
                 <th></th>
             </tr>
         </thead>
@@ -66,6 +67,7 @@
                             @FormatBytes(entry.Size)
                         }
                     </td>
+                    <td>@entry.ModifiedDate</td>
                     <td>
                         @if (entry.Type == FileSystemEntryType.File)
                         {

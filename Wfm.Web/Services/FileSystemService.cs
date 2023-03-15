@@ -11,6 +11,7 @@ public class FileSystemService : IFileSystemService
             bool isDirectory = (File.GetAttributes(fileSystemEntry) & FileAttributes.Directory) == FileAttributes.Directory;
             var entryType = isDirectory ? FileSystemEntryType.Directory : FileSystemEntryType.File;
             long size = 0;
+            DateTime modifiedDate = File.GetLastWriteTime(fileSystemEntry);
 
             if (!isDirectory)
             {
@@ -23,7 +24,8 @@ public class FileSystemService : IFileSystemService
                 entryType,
                 Path.GetFileName(fileSystemEntry),
                 Path.GetRelativePath(directoryPath, fileSystemEntry),
-                size);
+                size,
+                modifiedDate);
         }
     }
 
