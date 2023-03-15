@@ -12,9 +12,12 @@ public class FileSystemService : IFileSystemService
             var entryType = isDirectory ? FileSystemEntryType.Directory : FileSystemEntryType.File;
             long size = 0;
             DateTime modifiedDate = File.GetLastWriteTime(fileSystemEntry);
+            string extension = "";
 
             if (!isDirectory)
             {
+                extension = Path.GetExtension(fileSystemEntry).Substring(1);
+
                 var fileInfo = new FileInfo(fileSystemEntry);
 
                 size = fileInfo.Length;
@@ -25,7 +28,8 @@ public class FileSystemService : IFileSystemService
                 Path.GetFileName(fileSystemEntry),
                 Path.GetRelativePath(directoryPath, fileSystemEntry),
                 size,
-                modifiedDate);
+                modifiedDate,
+                extension);
         }
     }
 

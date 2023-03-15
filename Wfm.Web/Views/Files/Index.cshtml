@@ -39,9 +39,9 @@
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Modified</th>
                 <th>Type</th>
                 <th>Size</th>
-                <th>Modified</th>
                 <th></th>
             </tr>
         </thead>
@@ -60,14 +60,14 @@
                             @entry.Name
                         }
                     </td>
-                    <td>@entry.Type</td>
+                    <td>@entry.ModifiedDate</td>
+                    <td>@entry.Extension.ToUpper()</td>
                     <td>
                         @if (entry.Type == FileSystemEntryType.File && entry.Size > 0)
                         {
                             @FormatBytes(entry.Size)
                         }
                     </td>
-                    <td>@entry.ModifiedDate</td>
                     <td>
                         @if (entry.Type == FileSystemEntryType.File)
                         {
