@@ -53,6 +53,14 @@ public class FilesController : Controller
         return GetFileResult(result.FilePath, "");
     }
 
+    // public IActionResult Thumbnail(DownloadFileQuery query)
+    // {
+    //     DownloadFileResult result = _downloadFileHandler.Handle(query);
+
+    //     if (string.IsNullOrWhiteSpace(result.FilePath))
+    //         return NotFound();
+    // }
+
     private FileStreamResult GetFileResult(string filePath, string targetFileName)
     {
         string mimeType = GetMimeTypeForFileExtension(filePath);

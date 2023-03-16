@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <ItemGroup>
     <ProjectReference Include="..\Wfm.Domain\Wfm.Domain.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.0" />
+  </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
 </Project>
