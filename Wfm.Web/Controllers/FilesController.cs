@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Wfm.Domain.Features.FileManager.DownloadFile;
 using Wfm.Domain.Features.FileManager.GetFiles;
 using Wfm.Domain.Services.Settings;
@@ -37,12 +38,24 @@ public class FilesController : Controller
         if (string.IsNullOrWhiteSpace(result.FilePath))
             return NotFound();
 
-        return GetFileResult(result.FilePath);
+        string fileName = Path.GetFileName(result.FilePath);
+
+        return GetFileResult(result.FilePath, fileName);
     }
 
-    private FileStreamResult GetFileResult(string filePath)
+    public IActionResult Preview(DownloadFileQuery query)
     {
-        string fileName = Path.GetFileName(filePath);
+        DownloadFileResult result = _downloadFileHandler.Handle(query);
+
+        if (string.IsNullOrWhiteSpace(result.FilePath))
+            return NotFound();
+
+        return GetFileResult(result.FilePath, "");
+    }
+
+    private FileStreamResult GetFileResult(string filePath, string targetFileName)
+    {
+        string mimeType = GetMimeTypeForFileExtension(filePath);
         var ms = new MemoryStream();
 
         using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
@@ -50,11 +63,25 @@ public class FilesController : Controller
 
         ms.Position = 0;
 
-        return File(ms, "APPLICATION/octet-stream", fileName);
+        return File(ms, mimeType, targetFileName);
     }
 
     private string? GetLocationName(int index)
     {
         return _settingService.StorageOptions.Locations?.ElementAt(index)?.Name;
+    }
+
+    private static string GetMimeTypeForFileExtension(string filePath)
+    {
+        const string defaultContentType = "application/octet-stream";
+
+        var provider = new FileExtensionContentTypeProvider();
+
+        if (!provider.TryGetContentType(filePath, out string? contentType))
+        {
+            contentType = defaultContentType;
+        }
+
+        return contentType;
     }
 }

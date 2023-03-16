@@ -99,6 +99,8 @@
                     <td>
                         @if (entry.Type == FileSystemEntryType.File)
                         {
+                            @Html.ActionLink("Preview", "Preview", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })
+                            <text> | </text>
                             @Html.ActionLink("Download", "Download", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })
                         }
                     </td>
