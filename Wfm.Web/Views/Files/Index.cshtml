@@ -1,45 +1,10 @@
 @using Wfm.Domain.Services.FileSystem
+@using Wfm.Domain.Utils
 
 @model Wfm.Domain.Features.FileManager.GetFiles.GetFilesResult
 
 @{
     ViewData["Title"] = "Files";
-
-    string FormatBytes(long bytes)
-    {
-        string[] suffixes = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
-        int i = 0;
-        double dblBytes = bytes;
-
-        if (bytes > 1024)
-        {
-            for (i = 0; (bytes / 1024) > 0; i++, bytes /= 1024)
-            {
-                dblBytes = bytes / 1024.0;
-            }
-        }
-        
-        return String.Format("{0:0.##} {1}", dblBytes, suffixes[i]);
-    }
-
-    List<KeyValuePair<string, string>> ConvertPathToList(string path)
-    {
-        var result = new List<KeyValuePair<string, string>>();
-
-        if (string.IsNullOrEmpty(path))
-            return result;
-
-        string[] directories = path.Split('/', '\\');
-        string currentPath = "";
-
-        for (int i = 0; i < directories.Length; i++)
-        {
-            currentPath += (i == 0 ? "" : "/") + directories[i];
-            result.Add(new KeyValuePair<string, string>(directories[i], currentPath));
-        }
-
-        return result;
-    }
 }
 
 <hgroup>
@@ -55,7 +20,7 @@
     <ul>
         <li>@Html.ActionLink("Home", "Index", "Home")</li>
         <li>@Html.ActionLink(ViewBag.LocationName as string, "Index", "Files", new { LocationIndex = Model.LocationIndex })</li>
-        @foreach (KeyValuePair<string, string> item in ConvertPathToList(Model.RelativePath))
+        @foreach (KeyValuePair<string, string> item in FileSystemHelper.ConvertPathToList(Model.RelativePath))
         {
             <li>@Html.ActionLink(item.Key, "Index", "Files", new { LocationIndex = Model.LocationIndex, RelativePath = item.Value })</li>
         }
@@ -93,7 +58,7 @@
                     <td>
                         @if (entry.Type == FileSystemEntryType.File && entry.Size > 0)
                         {
-                            @FormatBytes(entry.Size)
+                            @FileSystemHelper.FormatBytes(entry.Size)
                         }
                     </td>
                     <td>
