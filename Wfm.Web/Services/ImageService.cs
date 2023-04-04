@@ -1,6 +1,8 @@
+using Wfm.Domain.Services;
+
 namespace Wfm.Web.Services;
 
-public class ImageService
+public class ImageService : IImageService
 {
     public void CreateThumbnail(string sourcePath, string destinationPath, int width, int height)
     {

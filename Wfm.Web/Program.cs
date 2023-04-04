@@ -1,5 +1,6 @@
 using Wfm.Domain.Features.FileManager.DownloadFile;
 using Wfm.Domain.Features.FileManager.GetFiles;
+using Wfm.Domain.Services;
 using Wfm.Domain.Services.FileSystem;
 using Wfm.Domain.Services.Settings;
 using Wfm.Web.Services;
@@ -14,6 +15,7 @@ builder.Services.Configure<StorageOptions>(
 
 builder.Services.AddTransient<ISettingService, SettingService>();
 builder.Services.AddTransient<IFileSystemService, FileSystemService>();
+builder.Services.AddTransient<IImageService, ImageService>();
 
 builder.Services.AddTransient<DownloadFileHandler>();
 builder.Services.AddTransient<GetFilesHandler>();
