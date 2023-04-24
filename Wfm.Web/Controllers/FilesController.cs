@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Wfm.Domain.Features.FileManager.DownloadFile;
 using Wfm.Domain.Features.FileManager.GetFiles;
+using Wfm.Domain.Features.FileManager.GetThumbnail;
 using Wfm.Domain.Services.Settings;
 
 namespace Wfm.Web.Controllers;
@@ -9,16 +10,19 @@ namespace Wfm.Web.Controllers;
 public class FilesController : Controller
 {
     private readonly GetFilesHandler _getFilesHandler;
+    private readonly GetThumbnailHandler _getThumbnailHandler;
     private readonly DownloadFileHandler _downloadFileHandler;
     private readonly ISettingService _settingService;
 
     public FilesController(
-        ISettingService settingService, 
+        ISettingService settingService,
         GetFilesHandler getFilesHandler,
+        GetThumbnailHandler getThumbnailHandler,
         DownloadFileHandler downloadFileHandler)
     {
         _settingService = settingService;
         _getFilesHandler = getFilesHandler;
+        _getThumbnailHandler = getThumbnailHandler;
         _downloadFileHandler = downloadFileHandler;
     }
 
@@ -53,13 +57,21 @@ public class FilesController : Controller
         return GetFileResult(result.FilePath, "");
     }
 
-    // public IActionResult Thumbnail(DownloadFileQuery query)
-    // {
-    //     DownloadFileResult result = _downloadFileHandler.Handle(query);
+    public IActionResult Thumbnail(DownloadFileQuery query)
+    {
+        DownloadFileResult downloadResult = _downloadFileHandler.Handle(query);
 
-    //     if (string.IsNullOrWhiteSpace(result.FilePath))
-    //         return NotFound();
-    // }
+        if (string.IsNullOrWhiteSpace(downloadResult.FilePath))
+            return NotFound();
+
+        var thumbnailQuery = new GetThumbnailQuery(downloadResult.FilePath);
+        GetThumbnailResult thumbnailResult = _getThumbnailHandler.Handle(thumbnailQuery);
+
+        if (string.IsNullOrWhiteSpace(thumbnailResult.ImagePath))
+            return NoContent();
+
+        return GetFileResult(thumbnailResult.ImagePath, "");
+    }
 
     private FileStreamResult GetFileResult(string filePath, string targetFileName)
     {

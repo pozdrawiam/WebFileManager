@@ -1,5 +1,6 @@
 using Wfm.Domain.Features.FileManager.DownloadFile;
 using Wfm.Domain.Features.FileManager.GetFiles;
+using Wfm.Domain.Features.FileManager.GetThumbnail;
 using Wfm.Domain.Services;
 using Wfm.Domain.Services.FileSystem;
 using Wfm.Domain.Services.Settings;
@@ -19,6 +20,7 @@ builder.Services.AddTransient<IImageService, ImageService>();
 
 builder.Services.AddTransient<DownloadFileHandler>();
 builder.Services.AddTransient<GetFilesHandler>();
+builder.Services.AddTransient<GetThumbnailHandler>();
 
 var app = builder.Build();
 

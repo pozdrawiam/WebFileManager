@@ -2,6 +2,7 @@ using Wfm.Domain.Services;
 
 namespace Wfm.Domain.Features.FileManager.GetThumbnail;
 
+//todo refactor, lock
 public class GetThumbnailHandler
 {
     private readonly IImageService _imageService;
@@ -13,15 +14,19 @@ public class GetThumbnailHandler
 
     public GetThumbnailResult Handle(GetThumbnailQuery query)
     {
-        string thumbnailDirPath = Path.Join(Path.GetDirectoryName(query.ImagePath), ".thumbnails");
+        const string thumbnailsDir = ".thumbnails";
+
+        if (string.IsNullOrWhiteSpace(query?.ImagePath) || query.ImagePath.Contains(thumbnailsDir))
+            return new ("");
+
+        string thumbnailDirPath = Path.Join(Path.GetDirectoryName(query.ImagePath), thumbnailsDir);
         string thumbnailPath = Path.Join(thumbnailDirPath, Path.GetFileName(query.ImagePath));
 
         if (!Directory.Exists(thumbnailDirPath))
-        {
             Directory.CreateDirectory(thumbnailDirPath);
-        }
 
-        _imageService.CreateThumbnail(query.ImagePath, thumbnailPath, 120, 120);
+        if (!File.Exists(query.ImagePath))
+            _imageService.CreateThumbnail(query.ImagePath, thumbnailPath, 120, 120);
 
         return new GetThumbnailResult(thumbnailPath);
     }

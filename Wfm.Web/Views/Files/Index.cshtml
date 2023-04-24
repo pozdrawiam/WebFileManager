@@ -31,6 +31,7 @@
     <table role="grid">
         <thead>
             <tr>
+                <th></th>
                 <th>Name</th>
                 <th>Modified</th>
                 <th>Type</th>
@@ -43,7 +44,12 @@
             {
                 <tr>
                     <td>
-
+                        @if (entry.Extension.ToLower() == "jpg")
+                        {
+                            <img src='@Url.Action("Thumbnail", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })' />
+                        }
+                    </td>
+                    <td>
                         @if (entry.Type == FileSystemEntryType.Directory)
                         {
                             @Html.ActionLink(entry.Name, "Index", "Files", new { LocationIndex = Model.LocationIndex, RelativePath = entry.RelativePath })
