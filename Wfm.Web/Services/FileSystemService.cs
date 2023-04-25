@@ -4,6 +4,11 @@ namespace Wfm.Web.Services;
 
 public class FileSystemService : IFileSystemService
 {
+    public void CreateDir(string dirPath)
+    {
+        Directory.CreateDirectory(dirPath);
+    }
+
     public IEnumerable<FileSystemEntry> GetEntries(string directoryPath)
     {
         foreach (string fileSystemEntry in Directory.GetFileSystemEntries(directoryPath))
@@ -31,6 +36,11 @@ public class FileSystemService : IFileSystemService
                 modifiedDate,
                 extension);
         }
+    }
+
+    public bool IsDirExists(string dirPath)
+    {
+        return Directory.Exists(dirPath);
     }
 
     public bool IsFileExists(string filePath)

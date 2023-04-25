@@ -1,32 +1,44 @@
 using Wfm.Domain.Services;
+using Wfm.Domain.Services.FileSystem;
 
 namespace Wfm.Domain.Features.FileManager.GetThumbnail;
 
-//todo refactor, lock
 public class GetThumbnailHandler
 {
+    private const int ThumbnailMaxHeight = 120;
+    private const int ThumbnailMaxWidth = 120;
+    private const string ThumbnailsDir = ".thumbnails";
+
+    private static readonly object CreateThumbnailLock = new();
+
+    private readonly IFileSystemService _fileSystemService;
     private readonly IImageService _imageService;
 
-    public GetThumbnailHandler(IImageService imageService)
+    public GetThumbnailHandler(IFileSystemService fileSystemService, IImageService imageService)
     {
+        _fileSystemService = fileSystemService;
         _imageService = imageService;
     }
 
     public GetThumbnailResult Handle(GetThumbnailQuery query)
     {
-        const string thumbnailsDir = ".thumbnails";
-
-        if (string.IsNullOrWhiteSpace(query?.ImagePath) || query.ImagePath.Contains(thumbnailsDir))
+        if (string.IsNullOrWhiteSpace(query?.ImagePath) || query.ImagePath.Contains(ThumbnailsDir))
             return new ("");
 
-        string thumbnailDirPath = Path.Join(Path.GetDirectoryName(query.ImagePath), thumbnailsDir);
+        string thumbnailDirPath = Path.Join(Path.GetDirectoryName(query.ImagePath), ThumbnailsDir);
         string thumbnailPath = Path.Join(thumbnailDirPath, Path.GetFileName(query.ImagePath));
 
-        if (!Directory.Exists(thumbnailDirPath))
-            Directory.CreateDirectory(thumbnailDirPath);
+        if (!_fileSystemService.IsDirExists(thumbnailDirPath))
+            _fileSystemService.CreateDir(thumbnailDirPath);
 
-        if (!File.Exists(query.ImagePath))
-            _imageService.CreateThumbnail(query.ImagePath, thumbnailPath, 120, 120);
+        if (!_fileSystemService.IsFileExists(thumbnailPath))
+        {
+            lock (CreateThumbnailLock)
+            {
+                if (!_fileSystemService.IsFileExists(thumbnailPath))
+                    _imageService.CreateThumbnail(query.ImagePath, thumbnailPath, ThumbnailMaxWidth, ThumbnailMaxHeight);
+            }
+        }
 
         return new GetThumbnailResult(thumbnailPath);
     }
