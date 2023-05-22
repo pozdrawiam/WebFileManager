@@ -43,7 +43,7 @@
             @foreach (var entry in Model.Entries)
             {
                 <tr>
-                    <td>
+                    <td class="thumbnail">
                         @if (entry.Extension.ToLower() == "jpg")
                         {
                             <img src='@Url.Action("Thumbnail", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })' />
