@@ -46,7 +46,7 @@
                     <td class="thumbnail">
                         @if (entry.Extension.ToLower() == "jpg")
                         {
-                            <img src='@Url.Action("Thumbnail", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })' />
+                            <img src='@Url.Action("Thumbnail", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })' loading="lazy" />
                         }
                     </td>
                     <td>
