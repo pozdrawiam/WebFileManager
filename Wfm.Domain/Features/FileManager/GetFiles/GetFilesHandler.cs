@@ -26,7 +26,8 @@ public class GetFilesHandler
 
         IEnumerable<FileSystemEntry> entries = _fileSystemService.GetEntries(path)
             .Where(x => x.RelativePath != ".thumbnails")
-            .Select(x => x with { RelativePath = Path.Join(query.RelativePath, x.RelativePath) });
+            .Select(x => x with { RelativePath = Path.Join(query.RelativePath, x.RelativePath) })
+            .OrderBy(x => x.Name);
 
         return new GetFilesResult(query.LocationIndex, query.RelativePath, entries);
     }
