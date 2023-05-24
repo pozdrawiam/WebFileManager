@@ -4,17 +4,25 @@ namespace Wfm.Web.Services;
 
 public class ImageService : IImageService
 {
+    private static readonly object CreateThumbnailLock = new();
+
     public void CreateThumbnail(string sourcePath, string destinationPath, int width, int height)
     {
-        using var image = Image.Load(sourcePath);
+        lock (CreateThumbnailLock)
+        {
+            if (File.Exists(destinationPath))
+                return;
 
-        image.Mutate(x => x
-            .Resize(new ResizeOptions
-            {
-                Size = new Size(width, height),
-                Mode = ResizeMode.Max
-            }));
+            using var image = Image.Load(sourcePath);
 
-        image.Save(destinationPath);
+            image.Mutate(x => x
+                .Resize(new ResizeOptions
+                {
+                    Size = new Size(width, height),
+                    Mode = ResizeMode.Max
+                }));
+
+            image.Save(destinationPath);
+        }
     }
 }

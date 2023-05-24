@@ -9,8 +9,6 @@ public class GetThumbnailHandler
     private const int ThumbnailMaxWidth = 64;
     private const string ThumbnailsDir = ".thumbnails";
 
-    private static readonly object CreateThumbnailLock = new();
-
     private readonly IFileSystemService _fileSystemService;
     private readonly IImageService _imageService;
 
@@ -32,13 +30,7 @@ public class GetThumbnailHandler
             _fileSystemService.CreateDir(thumbnailDirPath);
 
         if (!_fileSystemService.IsFileExists(thumbnailPath))
-        {
-            lock (CreateThumbnailLock)
-            {
-                if (!_fileSystemService.IsFileExists(thumbnailPath))
-                    _imageService.CreateThumbnail(query.ImagePath, thumbnailPath, ThumbnailMaxWidth, ThumbnailMaxHeight);
-            }
-        }
+            _imageService.CreateThumbnail(query.ImagePath, thumbnailPath, ThumbnailMaxWidth, ThumbnailMaxHeight);
 
         return new GetThumbnailResult(thumbnailPath);
     }
