@@ -5,8 +5,8 @@ namespace Wfm.Domain.Features.FileManager.GetThumbnail;
 
 public class GetThumbnailHandler
 {
-    private const int ThumbnailMaxHeight = 120;
-    private const int ThumbnailMaxWidth = 120;
+    private const int ThumbnailMaxHeight = 64;
+    private const int ThumbnailMaxWidth = 64;
     private const string ThumbnailsDir = ".thumbnails";
 
     private static readonly object CreateThumbnailLock = new();
