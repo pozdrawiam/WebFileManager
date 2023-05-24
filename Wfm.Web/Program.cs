@@ -22,6 +22,8 @@ builder.Services.AddTransient<DownloadFileHandler>();
 builder.Services.AddTransient<GetFilesHandler>();
 builder.Services.AddTransient<GetThumbnailHandler>();
 
+builder.Services.AddHostedService<ThumbnailGeneratorService>();
+
 var app = builder.Build();
 
 app.UseExceptionHandler("/Home/Error");
