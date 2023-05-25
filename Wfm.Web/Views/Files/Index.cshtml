@@ -59,7 +59,7 @@
                             @entry.Name
                         }
                     </td>
-                    <td>@entry.ModifiedDate</td>
+                    <td>@entry.ModifiedDate.ToString("yyyy.MM.dd HH:mm")</td>
                     <td>@entry.Extension.ToUpper()</td>
                     <td>
                         @if (entry.Type == FileSystemEntryType.File && entry.Size > 0)
