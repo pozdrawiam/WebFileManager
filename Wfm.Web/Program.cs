@@ -37,4 +37,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.Logger.LogInformation($"Starting app at {DateTime.Now}");
+
 app.Run();
