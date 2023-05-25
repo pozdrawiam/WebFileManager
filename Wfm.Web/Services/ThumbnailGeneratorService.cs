@@ -49,14 +49,17 @@ public class ThumbnailGeneratorService : BackgroundService
 
         _logger.LogInformation($"Generate missing {imageFiles.Length} thumbnails for {location.Name}");
 
+        int generatedThumbnails = 0;
+
         foreach (string imageFile in imageFiles)
         {
             if (timer.Elapsed > TimeLimit)
             {
-                _logger.LogTrace($"Generate missing thumbnails stopped by time limit'");
+                _logger.LogInformation(
+                    $"Generate missing thumbnails stopped by time limit, created {generatedThumbnails} thumbnails");
                 return;
             }
-            
+
             if (stoppingToken.IsCancellationRequested)
                 return;
 
@@ -74,8 +77,11 @@ public class ThumbnailGeneratorService : BackgroundService
 
                 _logger.LogTrace($"Generate missing thumbnail for '{imageFile}'");
                 GenerateThumbnail(imageFile, thumbnailPath);
+                generatedThumbnails++;
             }
         }
+
+        _logger.LogInformation($"Generated {generatedThumbnails} missing thumbnails");
     }
 
     private void GenerateThumbnail(string sourcePath, string destinationPath)
