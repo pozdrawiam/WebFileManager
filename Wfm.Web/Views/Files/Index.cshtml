@@ -33,9 +33,9 @@
             <tr>
                 <th></th>
                 <th>Name</th>
+                <th>Size</th>
                 <th>Modified</th>
                 <th>Type</th>
-                <th>Size</th>
                 <th></th>
             </tr>
         </thead>
@@ -59,14 +59,14 @@
                             @entry.Name
                         }
                     </td>
-                    <td>@entry.ModifiedDate.ToString("yyyy.MM.dd HH:mm")</td>
-                    <td>@entry.Extension.ToUpper()</td>
                     <td>
                         @if (entry.Type == FileSystemEntryType.File && entry.Size > 0)
                         {
                             @FileSystemHelper.FormatBytes(entry.Size)
                         }
                     </td>
+                    <td>@entry.ModifiedDate.ToString("yyyy.MM.dd HH:mm")</td>
+                    <td>@entry.Extension.ToUpper()</td>
                     <td>
                         @if (entry.Type == FileSystemEntryType.File)
                         {
