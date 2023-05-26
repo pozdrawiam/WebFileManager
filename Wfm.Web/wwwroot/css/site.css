@@ -1,3 +1,7 @@
 td.thumbnail {
     padding: 0;
 }
+
+td {
+    white-space: nowrap;
+}
