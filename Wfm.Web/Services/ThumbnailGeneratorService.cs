@@ -10,6 +10,7 @@ public class ThumbnailGeneratorService : BackgroundService
     private const int ThumbnailMaxWidth = 64;
     private const string ThumbnailsDir = ".thumbnails";
 
+    private readonly string[] ThumbnailExtensions = new string[] { "jpg", "jpeg", "png" };
     private static readonly TimeSpan TimeLimit = TimeSpan.FromHours(1);
 
     private readonly ILogger<ThumbnailGeneratorService> _logger;
@@ -41,10 +42,7 @@ public class ThumbnailGeneratorService : BackgroundService
     private void GenerateMissingThumbnails(LocationOptions location, Stopwatch timer, CancellationToken stoppingToken)
     {
         string[] imageFiles = Directory.GetFiles(location.Path, "*.*", SearchOption.AllDirectories)
-            .Where(file =>
-                (file.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) || file.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)) &&
-                !file.Contains(".thumbnails")
-            )
+            .Where(file =>!file.Contains(ThumbnailsDir) && ThumbnailExtensions.Any(ext => file.EndsWith("." + ext, StringComparison.OrdinalIgnoreCase)))
             .ToArray();
 
         if (imageFiles.Length == 0)
