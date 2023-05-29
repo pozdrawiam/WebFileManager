@@ -1,3 +1,4 @@
+using Wfm.Domain.Consts;
 using Wfm.Domain.Services;
 using Wfm.Domain.Services.FileSystem;
 
@@ -5,10 +6,6 @@ namespace Wfm.Domain.Features.FileManager.GetThumbnail;
 
 public class GetThumbnailHandler
 {
-    private const int ThumbnailMaxHeight = 64;
-    private const int ThumbnailMaxWidth = 64;
-    private const string ThumbnailsDir = ".thumbnails";
-
     private readonly IFileSystemService _fileSystemService;
     private readonly IImageService _imageService;
 
@@ -20,17 +17,21 @@ public class GetThumbnailHandler
 
     public GetThumbnailResult Handle(GetThumbnailQuery query)
     {
-        if (string.IsNullOrWhiteSpace(query?.ImagePath) || query.ImagePath.Contains(ThumbnailsDir))
+        if (string.IsNullOrWhiteSpace(query?.ImagePath) ||
+            query.ImagePath.Contains(ThumbnailConsts.DirName) ||
+            !ThumbnailConsts.Extensions.Contains(Path.GetExtension(query.ImagePath).ToLower().Replace(".", "")))
+        {
             return new ("");
+        }
 
-        string thumbnailDirPath = Path.Join(Path.GetDirectoryName(query.ImagePath), ThumbnailsDir);
+        string thumbnailDirPath = Path.Join(Path.GetDirectoryName(query.ImagePath), ThumbnailConsts.DirName);
         string thumbnailPath = Path.Join(thumbnailDirPath, Path.GetFileName(query.ImagePath));
 
         if (!_fileSystemService.IsDirExists(thumbnailDirPath))
             _fileSystemService.CreateDir(thumbnailDirPath);
 
         if (!_fileSystemService.IsFileExists(thumbnailPath))
-            _imageService.CreateThumbnail(query.ImagePath, thumbnailPath, ThumbnailMaxWidth, ThumbnailMaxHeight);
+            _imageService.CreateThumbnail(query.ImagePath, thumbnailPath, ThumbnailConsts.MaxWidth, ThumbnailConsts.MaxHeight);
 
         return new GetThumbnailResult(thumbnailPath);
     }

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Wfm.Domain.Consts;
 using Wfm.Domain.Services;
 using Wfm.Domain.Services.Settings;
 
@@ -6,11 +7,6 @@ namespace Wfm.Web.Services;
 
 public class ThumbnailGeneratorService : BackgroundService
 {
-    private const int ThumbnailMaxHeight = 64;
-    private const int ThumbnailMaxWidth = 64;
-    private const string ThumbnailsDir = ".thumbnails";
-
-    private readonly string[] ThumbnailExtensions = new string[] { "jpg", "jpeg", "png" };
     private static readonly TimeSpan TimeLimit = TimeSpan.FromHours(1);
 
     private readonly ILogger<ThumbnailGeneratorService> _logger;
@@ -42,7 +38,7 @@ public class ThumbnailGeneratorService : BackgroundService
     private void GenerateMissingThumbnails(LocationOptions location, Stopwatch timer, CancellationToken stoppingToken)
     {
         string[] imageFiles = Directory.GetFiles(location.Path, "*.*", SearchOption.AllDirectories)
-            .Where(file =>!file.Contains(ThumbnailsDir) && ThumbnailExtensions.Any(ext => file.EndsWith("." + ext, StringComparison.OrdinalIgnoreCase)))
+            .Where(file =>!file.Contains(ThumbnailConsts.DirName) && ThumbnailConsts.Extensions.Any(ext => file.EndsWith("." + ext, StringComparison.OrdinalIgnoreCase)))
             .ToArray();
 
         if (imageFiles.Length == 0)
@@ -67,7 +63,7 @@ public class ThumbnailGeneratorService : BackgroundService
             if (string.IsNullOrEmpty(imageFile))
                 continue;
 
-            string thumbnailDirectory = Path.Combine(Path.GetDirectoryName(imageFile)!, ThumbnailsDir);
+            string thumbnailDirectory = Path.Combine(Path.GetDirectoryName(imageFile)!, ThumbnailConsts.DirName);
             string thumbnailFileName = Path.GetFileName(imageFile);
             string thumbnailPath = Path.Combine(thumbnailDirectory, thumbnailFileName);
 
@@ -87,6 +83,6 @@ public class ThumbnailGeneratorService : BackgroundService
 
     private void GenerateThumbnail(string sourcePath, string destinationPath)
     {
-        _imageService.CreateThumbnail(sourcePath, destinationPath, ThumbnailMaxWidth, ThumbnailMaxHeight);
+        _imageService.CreateThumbnail(sourcePath, destinationPath, ThumbnailConsts.MaxWidth, ThumbnailConsts.MaxHeight);
     }
 }

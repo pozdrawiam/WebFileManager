@@ -1,3 +1,4 @@
+@using Wfm.Domain.Consts
 @using Wfm.Domain.Services.FileSystem
 @using Wfm.Domain.Utils
 
@@ -44,7 +45,7 @@
             {
                 <tr>
                     <td class="thumbnail">
-                        @if (entry.Extension.ToLower() == "jpg" || entry.Extension.ToLower() == "jpeg" || entry.Extension.ToLower() == "png")
+                        @if (ThumbnailConsts.Extensions.Contains(entry.Extension.ToLower()))
                         {
                             <img src='@Url.Action("Thumbnail", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })' loading="lazy" />
                         }

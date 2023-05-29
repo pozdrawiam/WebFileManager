@@ -1,3 +1,4 @@
+using Wfm.Domain.Consts;
 using Wfm.Domain.Services.FileSystem;
 using Wfm.Domain.Services.Settings;
 
@@ -25,7 +26,7 @@ public class GetFilesHandler
         string path = Path.Join(locationPath, query.RelativePath);
 
         IEnumerable<FileSystemEntry> entries = _fileSystemService.GetEntries(path)
-            .Where(x => x.RelativePath != ".thumbnails")
+            .Where(x => x.RelativePath != ThumbnailConsts.DirName)
             .Select(x => x with { RelativePath = Path.Join(query.RelativePath, x.RelativePath) })
             .OrderBy(x => x.Name);
 
