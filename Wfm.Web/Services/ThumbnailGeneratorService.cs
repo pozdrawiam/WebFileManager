@@ -41,7 +41,10 @@ public class ThumbnailGeneratorService : BackgroundService
     private void GenerateMissingThumbnails(LocationOptions location, Stopwatch timer, CancellationToken stoppingToken)
     {
         string[] imageFiles = Directory.GetFiles(location.Path, "*.*", SearchOption.AllDirectories)
-            .Where(file => file.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) || file.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
+            .Where(file =>
+                (file.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) || file.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)) &&
+                !file.Contains(".thumbnails")
+            )
             .ToArray();
 
         if (imageFiles.Length == 0)
