@@ -31,7 +31,12 @@ public class GetThumbnailHandler
             _fileSystemService.CreateDir(thumbnailDirPath);
 
         if (!_fileSystemService.IsFileExists(thumbnailPath))
-            _imageService.CreateThumbnail(query.ImagePath, thumbnailPath, ThumbnailConsts.MaxWidth, ThumbnailConsts.MaxHeight);
+        {
+            bool created = _imageService.CreateThumbnail(query.ImagePath, thumbnailPath, ThumbnailConsts.MaxWidth, ThumbnailConsts.MaxHeight);
+
+            if (!created)
+                return new ("");
+        }
 
         return new GetThumbnailResult(thumbnailPath);
     }
