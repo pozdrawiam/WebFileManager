@@ -41,7 +41,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var entry in Model.Entries)
+            @foreach (var entry in Model.Entries.OrderByDescending(e => e.Type))
             {
                 <tr>
                     <td class="thumbnail">
@@ -54,14 +54,15 @@
                         @if (entry.Type == FileSystemEntryType.Directory)
                         {
                             @Html.ActionLink(entry.Name, "Index", "Files", new { LocationIndex = Model.LocationIndex, RelativePath = entry.RelativePath })
+                            <text> / </text>
                         }
                         else
                         {
-                            @entry.Name
+                            @Html.ActionLink(entry.Name, "Preview", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })
                         }
                     </td>
                     <td>
-                        @if (entry.Type == FileSystemEntryType.File && entry.Size > 0)
+                        @if (entry.Type == FileSystemEntryType.File)
                         {
                             @FileSystemHelper.FormatBytes(entry.Size)
                         }
@@ -71,7 +72,8 @@
                     <td>
                         @if (entry.Type == FileSystemEntryType.File)
                         {
-                            @Html.ActionLink("Preview", "Preview", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })
+                            @Html.ActionLink("Preview", "Preview", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath }, 
+                                new { target = "_blank" })
                             <text> | </text>
                             @Html.ActionLink("Download", "Download", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })
                         }
