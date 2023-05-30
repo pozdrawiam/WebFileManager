@@ -6,6 +6,10 @@
 
 @{
     ViewData["Title"] = "Files";
+
+    int dirs = @Model.Entries.Count(e => e.Type == FileSystemEntryType.Directory);
+    int files = @Model.Entries.Count(e => e.Type == FileSystemEntryType.File);
+    string filesSize = FileSystemHelper.FormatBytes(Model.Entries.Sum(e => e.Size));
 }
 
 <hgroup>
@@ -27,6 +31,12 @@
         }
     </ul>
 </nav>
+
+<p>
+    <small>
+        <em>@dirs folders, @files files: @filesSize</em>
+    </small>
+</p>
 
 <figure>
     <table role="grid">
