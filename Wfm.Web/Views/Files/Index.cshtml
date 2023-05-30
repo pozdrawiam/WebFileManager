@@ -12,15 +12,6 @@
     string filesSize = FileSystemHelper.FormatBytes(Model.Entries.Sum(e => e.Size));
 }
 
-<hgroup>
-    <p>
-        @if (ViewBag.BackPath != null)
-        {
-            @Html.ActionLink("Back", "Index", "Files", new { LocationIndex = Model.LocationIndex, RelativePath = ViewBag.BackPath })
-        }
-    </p>
-</hgroup>
-
 <nav aria-label="breadcrumb">
     <ul>
         <li>@Html.ActionLink("Home", "Index", "Home")</li>
