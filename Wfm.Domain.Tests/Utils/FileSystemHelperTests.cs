@@ -6,6 +6,62 @@ namespace Wfm.Domain.Tests.Utils;
 [TestFixture]
 public class FileSystemHelperTests
 {
+    #region ConvertPathToList Tests
+
+    [Test]
+    public void ConvertPathToList_WithNullPath_ShouldReturnEmptyList()
+    {
+        const string? path = null;
+
+        var result = FileSystemHelper.ConvertPathToList(path!);
+
+        Assert.IsEmpty(result);
+    }
+
+    [Test]
+    public void ConvertPathToList_WithEmptyPath_ShouldReturnEmptyList()
+    {
+        const string path = "";
+
+        var result = FileSystemHelper.ConvertPathToList(path);
+
+        Assert.IsEmpty(result);
+    }
+
+    [Test]
+    public void ConvertPathToList_WithRootPath_ShouldReturnSingleItemInList()
+    {
+        const string path = "folder1";
+
+        var result = FileSystemHelper.ConvertPathToList(path);
+
+        Assert.AreEqual(1, result.Count);
+
+        Assert.AreEqual("folder1", result[0].Key);
+        Assert.AreEqual("folder1", result[0].Value);
+    }
+
+    [Test]
+    public void ConvertPathToList_WithValidPath_ShouldReturnCorrectList()
+    {
+        const string path = "folder1/folder2/folder3";
+
+        var result = FileSystemHelper.ConvertPathToList(path);
+
+        Assert.AreEqual(3, result.Count);
+
+        Assert.AreEqual("folder1", result[0].Key);
+        Assert.AreEqual("folder1", result[0].Value);
+
+        Assert.AreEqual("folder2", result[1].Key);
+        Assert.AreEqual("folder1/folder2", result[1].Value);
+
+        Assert.AreEqual("folder3", result[2].Key);
+        Assert.AreEqual("folder1/folder2/folder3", result[2].Value);
+    }
+
+    #endregion
+
     [Test]
     [TestCase(0, 0, "B")]
     [TestCase(1, 1, "B")]
