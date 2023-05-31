@@ -2,23 +2,6 @@ namespace Wfm.Domain.Utils;
 
 public static class FileSystemHelper
 {
-    public static string FormatBytes(long bytes)
-    {
-        string[] suffixes = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
-        int i = 0;
-        double dblBytes = bytes;
-
-        if (bytes >= 1024)
-        {
-            for (i = 0; (bytes / 1024) > 0; i++, bytes /= 1024)
-            {
-                dblBytes = bytes / 1024.0;
-            }
-        }
-
-        return String.Format("{0:0.##} {1}", dblBytes, suffixes[i]);
-    }
-
     public static List<KeyValuePair<string, string>> ConvertPathToList(string path)
     {
         var result = new List<KeyValuePair<string, string>>();
@@ -36,5 +19,22 @@ public static class FileSystemHelper
         }
 
         return result;
+    }
+
+    public static string FormatBytes(long bytes)
+    {
+        string[] suffixes = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
+        int i = 0;
+        double dblBytes = bytes;
+
+        if (bytes >= 1024)
+        {
+            for (i = 0; (bytes / 1024) > 0; i++, bytes /= 1024)
+            {
+                dblBytes = bytes / 1024.0;
+            }
+        }
+
+        return String.Format("{0:0.##} {1}", dblBytes, suffixes[i]);
     }
 }
