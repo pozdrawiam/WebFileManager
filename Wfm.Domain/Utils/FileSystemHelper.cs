@@ -8,7 +8,7 @@ public static class FileSystemHelper
         int i = 0;
         double dblBytes = bytes;
 
-        if (bytes > 1024)
+        if (bytes >= 1024)
         {
             for (i = 0; (bytes / 1024) > 0; i++, bytes /= 1024)
             {
