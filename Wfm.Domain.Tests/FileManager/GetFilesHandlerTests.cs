@@ -6,6 +6,7 @@ using Wfm.Domain.Services.Settings;
 
 namespace Wfm.Domain.Tests.FileManager;
 
+[TestFixture]
 public class GetFilesHandlerTests
 {
     private GetFilesHandler? _sut;
