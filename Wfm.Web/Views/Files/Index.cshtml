@@ -48,7 +48,9 @@
                     <td class="thumbnail">
                         @if (ThumbnailConsts.Extensions.Contains(entry.Extension.ToLower()))
                         {
-                            <img src='@Url.Action("Thumbnail", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })' loading="lazy" />
+                            <img src='@Url.Action("Thumbnail", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })' 
+                                loading="lazy" 
+                                style="max-width: @(ThumbnailConsts.MaxWidth)px; max-height: @(ThumbnailConsts.MaxHeight)px" />
                         }
                     </td>
                     <td>
