@@ -25,7 +25,24 @@
 
 <p>
     <small>
-        <em>@dirs folders, @files files: @filesSize</em>
+        <em>
+            @if (dirs > 0 && files > 0)
+            {
+                @:@dirs folder@(dirs > 1 ? "s" : ""), @files file@(files > 1 ? "s" : ""): @filesSize
+            }
+            else if (dirs > 0)
+            {
+                @:@dirs folder@(dirs > 1 ? "s" : "")
+            }
+            else if (files > 0)
+            {
+                @:@files file@(files > 1 ? "s" : ""): @filesSize
+            }
+            else
+            {
+                @:empty
+            }
+        </em>
     </small>
 </p>
 
@@ -48,8 +65,8 @@
                     <td class="thumbnail">
                         @if (ThumbnailConsts.Extensions.Contains(entry.Extension.ToLower()))
                         {
-                            <img src='@Url.Action("Thumbnail", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })' 
-                                loading="lazy" 
+                            <img src='@Url.Action("Thumbnail", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })'
+                                loading="lazy"
                                 style="max-width: @(ThumbnailConsts.MaxWidth)px; max-height: @(ThumbnailConsts.MaxHeight)px" />
                         }
                     </td>
@@ -76,7 +93,7 @@
                         @if (entry.Type == FileSystemEntryType.File)
                         {
                             @Html.ActionLink("Preview", "Preview", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath }, 
-                                new { target = "_blank" })
+                    new { target = "_blank" })
                             <text> | </text>
                             @Html.ActionLink("Download", "Download", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })
                         }
