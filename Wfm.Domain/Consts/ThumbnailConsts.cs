@@ -6,5 +6,5 @@ public static class ThumbnailConsts
     public const int MaxHeight = 64;
     public const int MaxWidth = 64;
 
-    public static readonly string[] Extensions = new string[] { "bmp", "gif", "jpg", "jpeg", "png" };
+    public static readonly string[] Extensions = new string[] { "bmp", "jpg", "jpeg", "png" };
 }
