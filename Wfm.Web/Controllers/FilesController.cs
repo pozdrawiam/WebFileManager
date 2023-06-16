@@ -9,16 +9,16 @@ namespace Wfm.Web.Controllers;
 
 public class FilesController : Controller
 {
-    private readonly GetFilesHandler _getFilesHandler;
-    private readonly GetThumbnailHandler _getThumbnailHandler;
-    private readonly DownloadFileHandler _downloadFileHandler;
-    private readonly ISettingService _settingService;
+    private readonly Lazy<GetFilesHandler> _getFilesHandler;
+    private readonly Lazy<GetThumbnailHandler> _getThumbnailHandler;
+    private readonly Lazy<DownloadFileHandler> _downloadFileHandler;
+    private readonly Lazy<ISettingService> _settingService;
 
     public FilesController(
-        ISettingService settingService,
-        GetFilesHandler getFilesHandler,
-        GetThumbnailHandler getThumbnailHandler,
-        DownloadFileHandler downloadFileHandler)
+        Lazy<ISettingService> settingService,
+        Lazy<GetFilesHandler> getFilesHandler,
+        Lazy<GetThumbnailHandler> getThumbnailHandler,
+        Lazy<DownloadFileHandler> downloadFileHandler)
     {
         _settingService = settingService;
         _getFilesHandler = getFilesHandler;
@@ -30,14 +30,14 @@ public class FilesController : Controller
     {
         ViewBag.LocationName = GetLocationName(query.LocationIndex);
 
-        GetFilesResult result = _getFilesHandler.Handle(query);
+        GetFilesResult result = _getFilesHandler.Value.Handle(query);
 
         return View(result);
     }
 
     public IActionResult Download(DownloadFileQuery query)
     {
-        DownloadFileResult result = _downloadFileHandler.Handle(query);
+        DownloadFileResult result = _downloadFileHandler.Value.Handle(query);
 
         if (string.IsNullOrWhiteSpace(result.FilePath))
             return NotFound();
@@ -49,7 +49,7 @@ public class FilesController : Controller
 
     public IActionResult Preview(DownloadFileQuery query)
     {
-        DownloadFileResult result = _downloadFileHandler.Handle(query);
+        DownloadFileResult result = _downloadFileHandler.Value.Handle(query);
 
         if (string.IsNullOrWhiteSpace(result.FilePath))
             return NotFound();
@@ -59,13 +59,13 @@ public class FilesController : Controller
 
     public IActionResult Thumbnail(DownloadFileQuery query)
     {
-        DownloadFileResult downloadResult = _downloadFileHandler.Handle(query);
+        DownloadFileResult downloadResult = _downloadFileHandler.Value.Handle(query);
 
         if (string.IsNullOrWhiteSpace(downloadResult.FilePath))
             return NotFound();
 
         var thumbnailQuery = new GetThumbnailQuery(downloadResult.FilePath);
-        GetThumbnailResult thumbnailResult = _getThumbnailHandler.Handle(thumbnailQuery);
+        GetThumbnailResult thumbnailResult = _getThumbnailHandler.Value.Handle(thumbnailQuery);
 
         if (string.IsNullOrWhiteSpace(thumbnailResult.ImagePath))
             return NoContent();
@@ -88,7 +88,7 @@ public class FilesController : Controller
 
     private string? GetLocationName(int index)
     {
-        return _settingService.StorageOptions.Locations?.ElementAt(index)?.Name;
+        return _settingService.Value.StorageOptions.Locations?.ElementAt(index)?.Name;
     }
 
     private static string GetMimeTypeForFileExtension(string filePath)

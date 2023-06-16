@@ -4,6 +4,7 @@ using Wfm.Domain.Features.FileManager.GetThumbnail;
 using Wfm.Domain.Services;
 using Wfm.Domain.Services.FileSystem;
 using Wfm.Domain.Services.Settings;
+using Wfm.Web;
 using Wfm.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.Configure<StorageOptions>(
     builder.Configuration.GetSection(StorageOptions.Storage)
 );
+
+builder.Services.AddTransient(typeof(Lazy<>), typeof(Lazier<>));
 
 builder.Services.AddTransient<ISettingService, SettingService>();
 builder.Services.AddTransient<IFileSystemService, FileSystemService>();
