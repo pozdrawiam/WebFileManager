@@ -9,7 +9,7 @@ public class FileSystemHelperTests
     #region ConvertPathToList Tests
 
     [Test]
-    public void ConvertPathToList_WithNullPath_ShouldReturnEmptyList()
+    public void ConvertPathToList_WithNullPath_ReturnsEmptyList()
     {
         const string? path = null;
 
@@ -19,7 +19,7 @@ public class FileSystemHelperTests
     }
 
     [Test]
-    public void ConvertPathToList_WithEmptyPath_ShouldReturnEmptyList()
+    public void ConvertPathToList_WithEmptyPath_ReturnsEmptyList()
     {
         const string path = "";
 
@@ -29,7 +29,7 @@ public class FileSystemHelperTests
     }
 
     [Test]
-    public void ConvertPathToList_WithRootPath_ShouldReturnSingleItemInList()
+    public void ConvertPathToList_WithRootPath_ReturnsSingleItemInList()
     {
         const string path = "folder1";
 
@@ -42,7 +42,7 @@ public class FileSystemHelperTests
     }
 
     [Test]
-    public void ConvertPathToList_WithValidPath_ShouldReturnCorrectList()
+    public void ConvertPathToList_WithValidPath_ReturnsCorrectList()
     {
         const string path = "folder1/folder2/folder3";
 
@@ -74,7 +74,7 @@ public class FileSystemHelperTests
     [TestCase(1099511627776, 1, "TB")]
     [TestCase(1125899906842624, 1, "PB")]
     [TestCase(1152921504606846976, 1, "EB")]
-    public void FormatBytes_ShouldReturnCorrectValue(long bytes, decimal value, string unit)
+    public void FormatBytes_ReturnsCorrectValue(long bytes, decimal value, string unit)
     {
         string expected = $"{value} {unit}";
 
