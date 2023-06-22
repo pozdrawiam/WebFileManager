@@ -4,7 +4,7 @@ using Wfm.Domain.Features.FileManager.GetThumbnail;
 using Wfm.Domain.Services;
 using Wfm.Domain.Services.FileSystem;
 using Wfm.Domain.Services.Settings;
-using Wfm.Web;
+using Wfm.Web.Core;
 using Wfm.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
