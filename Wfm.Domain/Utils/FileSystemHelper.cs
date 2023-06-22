@@ -35,6 +35,6 @@ public static class FileSystemHelper
             }
         }
 
-        return String.Format("{0:0.##} {1}", dblBytes, suffixes[i]);
+        return string.Format("{0:0.##} {1}", dblBytes, suffixes[i]);
     }
 }
