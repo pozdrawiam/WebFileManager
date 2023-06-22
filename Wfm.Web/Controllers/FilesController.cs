@@ -4,23 +4,23 @@ using Wfm.Domain.Features.FileManager.DownloadFile;
 using Wfm.Domain.Features.FileManager.GetFiles;
 using Wfm.Domain.Features.FileManager.GetThumbnail;
 using Wfm.Domain.Services.Settings;
+using Wfm.Web.Core;
 
 namespace Wfm.Web.Controllers;
 
-public class FilesController : Controller
+public class FilesController : AppController
 {
     private readonly Lazy<GetFilesHandler> _getFilesHandler;
     private readonly Lazy<GetThumbnailHandler> _getThumbnailHandler;
     private readonly Lazy<DownloadFileHandler> _downloadFileHandler;
-    private readonly Lazy<ISettingService> _settingService;
 
     public FilesController(
         Lazy<ISettingService> settingService,
         Lazy<GetFilesHandler> getFilesHandler,
         Lazy<GetThumbnailHandler> getThumbnailHandler,
-        Lazy<DownloadFileHandler> downloadFileHandler)
+        Lazy<DownloadFileHandler> downloadFileHandler
+        ) : base(settingService)
     {
-        _settingService = settingService;
         _getFilesHandler = getFilesHandler;
         _getThumbnailHandler = getThumbnailHandler;
         _downloadFileHandler = downloadFileHandler;
@@ -88,7 +88,7 @@ public class FilesController : Controller
 
     private string? GetLocationName(int index)
     {
-        return _settingService.Value.StorageOptions.Locations?.ElementAt(index)?.Name;
+        return SettingService.Value.StorageOptions.Locations?.ElementAt(index)?.Name;
     }
 
     private static string GetMimeTypeForFileExtension(string filePath)

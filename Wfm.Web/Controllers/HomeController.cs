@@ -1,20 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Wfm.Domain.Services.Settings;
+using Wfm.Web.Core;
 
 namespace Wfm.Web.Controllers;
 
-public class HomeController : Controller
+public class HomeController : AppController
 {
-    private readonly ISettingService _settingService;
-
-    public HomeController(ISettingService settingService)
+    public HomeController(Lazy<ISettingService> settingService)
+        : base(settingService)
     {
-        _settingService = settingService;
     }
 
     public IActionResult Index()
     {
-        LocationOptions[] locations = _settingService.StorageOptions.Locations;
+        LocationOptions[] locations = SettingService.Value.StorageOptions.Locations;
 
         if (locations.Length == 1)
             return RedirectToAction(nameof(FilesController.Index), "Files", new { LocationIndex = 0 });
