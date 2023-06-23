@@ -10,9 +10,9 @@ namespace Wfm.Domain.Tests
     [TestFixture]
     public class GetFilesHandlerTests
     {
-        private Mock<ISettingService>? _settingServiceMock;
-        private Mock<IFileSystemService>? _fileSystemServiceMock;
         private GetFilesHandler? _handler;
+        private Mock<IFileSystemService>? _fileSystemServiceMock;
+        private Mock<ISettingService>? _settingServiceMock;
 
         [SetUp]
         public void Setup()
@@ -35,7 +35,7 @@ namespace Wfm.Domain.Tests
         public void Handle_WithValidLocationIndex_ReturnsExpectedResult()
         {
             var storegeOptions = new StorageOptions 
-            { 
+            {
                 Locations = new [] { new LocationOptions { Path = "/path1" }, new LocationOptions { Path = "/path2" }}
             };
             _settingServiceMock!.SetupGet(s => s.StorageOptions).Returns(storegeOptions);
@@ -49,7 +49,7 @@ namespace Wfm.Domain.Tests
 
             var query = new GetFilesQuery(1, "");
 
-            var result = _handler!.Handle(query);
+            GetFilesResult result = _handler!.Handle(query);
 
             Assert.AreEqual(query.LocationIndex, result.LocationIndex);
             Assert.AreEqual(query.RelativePath, result.RelativePath);
