@@ -11,22 +11,22 @@ namespace Wfm.Domain.Tests.Features.FileManager.DownloadFile
     public class DownloadFileHandlerTests
     {
         private DownloadFileHandler? _handler;
-        private Mock<ISettingService>? _mockSettingService;
-        private Mock<IFileSystemService>? _mockFileSystemService;
+        private Mock<ISettingService>? _settingServiceMock;
+        private Mock<IFileSystemService>? _fileSystemServiceMock;
 
         [SetUp]
         public void SetUp()
         {
-            _mockSettingService = new Mock<ISettingService>();
-            _mockFileSystemService = new Mock<IFileSystemService>();
-            _handler = new DownloadFileHandler(_mockSettingService.Object, _mockFileSystemService.Object);
+            _settingServiceMock = new Mock<ISettingService>();
+            _fileSystemServiceMock = new Mock<IFileSystemService>();
+            _handler = new DownloadFileHandler(_settingServiceMock.Object, _fileSystemServiceMock.Object);
         }
 
         [Test]
         public void Handle_LocationPathEmpty_ReturnsEmptyResult()
         {
             var query = new DownloadFileQuery(1, "file.txt");
-            _mockSettingService!.Setup(s => s.GetLocationByIndex(It.IsAny<int>())).Returns(new LocationOptions { Path = "" });
+            _settingServiceMock!.Setup(s => s.GetLocationByIndex(It.IsAny<int>())).Returns(new LocationOptions { Path = "" });
 
             DownloadFileResult result = _handler!.Handle(query);
 
@@ -39,8 +39,8 @@ namespace Wfm.Domain.Tests.Features.FileManager.DownloadFile
             var query = new DownloadFileQuery(1, "file.txt");
             const string locationPath = "C:\\Location";
 
-            _mockSettingService!.Setup(s => s.GetLocationByIndex(It.IsAny<int>())).Returns(new LocationOptions { Path = locationPath });
-            _mockFileSystemService!.Setup(f => f.IsFileExists(It.IsAny<string>())).Returns(true);
+            _settingServiceMock!.Setup(s => s.GetLocationByIndex(It.IsAny<int>())).Returns(new LocationOptions { Path = locationPath });
+            _fileSystemServiceMock!.Setup(f => f.IsFileExists(It.IsAny<string>())).Returns(true);
 
             DownloadFileResult result = _handler!.Handle(query);
 
@@ -54,8 +54,8 @@ namespace Wfm.Domain.Tests.Features.FileManager.DownloadFile
             var query = new DownloadFileQuery(1, "file.txt");
             const string locationPath = "C:\\Location";
 
-            _mockSettingService!.Setup(s => s.GetLocationByIndex(It.IsAny<int>())).Returns(new LocationOptions { Path = locationPath });
-            _mockFileSystemService!.Setup(f => f.IsFileExists(It.IsAny<string>())).Returns(false);
+            _settingServiceMock!.Setup(s => s.GetLocationByIndex(It.IsAny<int>())).Returns(new LocationOptions { Path = locationPath });
+            _fileSystemServiceMock!.Setup(f => f.IsFileExists(It.IsAny<string>())).Returns(false);
 
             DownloadFileResult result = _handler!.Handle(query);
 
