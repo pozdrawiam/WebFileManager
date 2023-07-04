@@ -38,13 +38,13 @@ public class ThumbnailGeneratorService : BackgroundService
     private void GenerateMissingThumbnails(LocationOptions location, Stopwatch timer, CancellationToken stoppingToken)
     {
         string[] imageFiles = Directory.GetFiles(location.Path, "*.*", SearchOption.AllDirectories)
-            .Where(file =>!file.Contains(ThumbnailConsts.DirName) && ThumbnailConsts.Extensions.Any(ext => file.EndsWith("." + ext, StringComparison.OrdinalIgnoreCase)))
+            .Where(file => !file.Contains(ThumbnailConsts.DirName) && ThumbnailConsts.Extensions.Any(ext => file.EndsWith("." + ext, StringComparison.OrdinalIgnoreCase)))
             .ToArray();
 
         if (imageFiles.Length == 0)
             return;
 
-        _logger.LogInformation("Generate missing {} thumbnails for {}", imageFiles.Length, location.Name);
+        _logger.LogInformation("Generate missing thumbnails for '{}'", location.Name);
 
         int generatedThumbnails = 0;
 
@@ -77,7 +77,8 @@ public class ThumbnailGeneratorService : BackgroundService
             }
         }
 
-        _logger.LogInformation("Generated {} missing thumbnails", generatedThumbnails);
+        if (generatedThumbnails > 0)
+            _logger.LogInformation("Generated {} missing thumbnails for '{}'", generatedThumbnails, location.Name);
     }
 
     private void GenerateThumbnail(string sourcePath, string destinationPath)
