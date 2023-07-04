@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Html
 @using Wfm.Domain.Consts
 @using Wfm.Domain.Services.FileSystem
 @using Wfm.Domain.Utils
@@ -10,6 +11,15 @@
     int dirs = @Model.Entries.Count(e => e.Type == FileSystemEntryType.Directory);
     int files = @Model.Entries.Count(e => e.Type == FileSystemEntryType.File);
     string filesSize = FileSystemHelper.FormatBytes(Model.Entries.Sum(e => e.Size));
+
+    IHtmlContent OrderLink(string orderBy, bool desc = false)
+    {
+        return desc 
+            ? Html.ActionLink("▼", "Index", "Files", 
+                new { LocationIndex = Model.LocationIndex, RelativePath = Model.RelativePath, OrderBy = orderBy, OrderDesc = true })
+            : Html.ActionLink("▲", "Index", "Files", 
+                new { LocationIndex = Model.LocationIndex, RelativePath = Model.RelativePath, OrderBy = orderBy });
+    };
 }
 
 <nav aria-label="breadcrumb">
@@ -50,12 +60,12 @@
     <table role="grid">
         <thead>
             <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Size</th>
-                <th>Modified</th>
-                <th>Type</th>
-                <th></th>
+                <th>@* Thumbnail *@</th>
+                <th>Name @OrderLink(nameof(FileSystemEntry.Name)) @OrderLink(nameof(FileSystemEntry.Name), true)</th>
+                <th>Size @OrderLink(nameof(FileSystemEntry.Size)) @OrderLink(nameof(FileSystemEntry.Size), true)</th>
+                <th>Modified @OrderLink(nameof(FileSystemEntry.ModifiedDate)) @OrderLink(nameof(FileSystemEntry.ModifiedDate), true)</th>
+                <th>Type @OrderLink(nameof(FileSystemEntry.Extension)) @OrderLink(nameof(FileSystemEntry.Extension), true)</th>
+                <th>@* Actions *@</th>
             </tr>
         </thead>
         <tbody>
@@ -93,7 +103,7 @@
                         @if (entry.Type == FileSystemEntryType.File)
                         {
                             @Html.ActionLink("Preview", "Preview", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath }, 
-                    new { target = "_blank" })
+                                new { target = "_blank" })
                             <text> | </text>
                             @Html.ActionLink("Download", "Download", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })
                         }
