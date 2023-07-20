@@ -26,7 +26,7 @@ namespace Wfm.Domain.Tests
         public void Handle_WithInvalidLocationIndex_ThrowsException()
         {
             _settingServiceMock!.SetupGet(s => s.StorageOptions).Returns(new StorageOptions { Locations = new LocationOptions[0]});
-            var query = new GetFilesQuery(1, "");
+            var query = new GetFilesQuery(1, "", null, false);
 
             Assert.Throws<Exception>(() => _handler!.Handle(query));
         }
@@ -47,7 +47,7 @@ namespace Wfm.Domain.Tests
             };
             _fileSystemServiceMock!.Setup(f => f.GetEntries(It.IsAny<string>())).Returns(fileSystemEntries);
 
-            var query = new GetFilesQuery(1, "");
+            var query = new GetFilesQuery(1, "", null, false);
 
             GetFilesResult result = _handler!.Handle(query);
 
