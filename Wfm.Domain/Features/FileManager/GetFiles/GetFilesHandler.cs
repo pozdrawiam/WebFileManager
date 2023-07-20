@@ -6,6 +6,7 @@ namespace Wfm.Domain.Features.FileManager.GetFiles;
 
 public class GetFilesHandler
 {
+    private const int PageSize = 100;
     private readonly ISettingService _settingService;
     private readonly IFileSystemService _fileSystemService;
 
@@ -31,8 +32,12 @@ public class GetFilesHandler
 
         if (!string.IsNullOrWhiteSpace(query.OrderBy))
             entries = OrderEntries(entries, query.OrderBy, query.OrderDesc);
-        
-        return new GetFilesResult(query.LocationIndex, query.RelativePath, entries);
+
+        int totalPages = (int)Math.Ceiling(entries.Count() / (double)PageSize);
+
+        entries = entries.Skip((query.Page - 1) * PageSize).Take(PageSize);
+
+        return new GetFilesResult(query.LocationIndex, query.RelativePath, query.OrderBy, query.OrderDesc, query.Page, totalPages, entries);
     }
 
     private static IEnumerable<FileSystemEntry> OrderEntries(IEnumerable<FileSystemEntry> entries, string orderBy, bool orderDesc)

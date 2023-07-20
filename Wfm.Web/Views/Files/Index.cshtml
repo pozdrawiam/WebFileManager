@@ -112,4 +112,16 @@
             }
         </tbody>
     </table>
+
+    @if (Model.Page > 1)
+    {
+        @Html.ActionLink("< Previous", "Index", "Files", 
+            new { LocationIndex = Model.LocationIndex, RelativePath = Model.RelativePath, OrderBy = Model.OrderBy, OrderDesc = Model.OrderDesc, Page = Model.Page - 1 })
+        @(" | ")
+    }
+    @if (Model.Page < Model.TotalPages)
+    {
+        @Html.ActionLink("Next >", "Index", "Files", 
+            new { LocationIndex = Model.LocationIndex, RelativePath = Model.RelativePath, OrderBy = Model.OrderBy, OrderDesc = Model.OrderDesc, Page = Model.Page + 1 })
+    }
 </figure>

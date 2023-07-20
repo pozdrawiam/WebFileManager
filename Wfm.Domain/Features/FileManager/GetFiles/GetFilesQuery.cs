@@ -1,3 +1,3 @@
 namespace Wfm.Domain.Features.FileManager.GetFiles;
 
-public record GetFilesQuery(int LocationIndex, string RelativePath, string? OrderBy, bool OrderDesc);
+public record GetFilesQuery(int LocationIndex, string RelativePath, string? OrderBy, bool OrderDesc, int Page = 1);
