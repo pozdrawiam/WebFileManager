@@ -24,13 +24,14 @@ Setup directores in `appsettings.json`:
 
 ```json
 "Storage": {
-    "Locations": [
-      {
-        "Name": "My dir 1",
-        "Path": "C:\\Example\\Path\\1"
-      }
-    ]
-  }
+  "ListPageSize": 100,
+  "Locations": [
+    {
+      "Name": "My dir 1",
+      "Path": "C:\\Example\\Path\\1"
+    }
+  ]
+}
 ```
 
 ## Run from source
