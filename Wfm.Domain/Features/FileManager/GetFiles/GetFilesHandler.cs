@@ -6,7 +6,6 @@ namespace Wfm.Domain.Features.FileManager.GetFiles;
 
 public class GetFilesHandler
 {
-    private const int PageSize = 100;
     private readonly ISettingService _settingService;
     private readonly IFileSystemService _fileSystemService;
 
@@ -18,7 +17,7 @@ public class GetFilesHandler
 
     public GetFilesResult Handle(GetFilesQuery query)
     {
-        var locations = _settingService.StorageOptions.Locations;
+        LocationOptions[] locations = _settingService.StorageOptions.Locations;
 
         if (query.LocationIndex > locations.Length)
             throw new Exception("Invalid locationIndex");
@@ -35,10 +34,11 @@ public class GetFilesHandler
 
         entries = entries.ToArray();
 
+        int pageSize = _settingService.StorageOptions.ListPageSize;
         int totalEntries = entries.Count();
-        int totalPages = (int)Math.Ceiling(totalEntries / (double)PageSize);
+        int totalPages = (int)Math.Ceiling(totalEntries / (double)pageSize);
 
-        entries = entries.Skip((query.Page - 1) * PageSize).Take(PageSize);
+        entries = entries.Skip((query.Page - 1) * pageSize).Take(pageSize);
 
         return new GetFilesResult(query.LocationIndex, query.RelativePath, query.OrderBy, query.OrderDesc, query.Page, totalPages, totalEntries, entries);
     }
