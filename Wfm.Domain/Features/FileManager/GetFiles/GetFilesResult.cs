@@ -9,4 +9,5 @@ public record GetFilesResult(
     bool OrderDesc,
     int Page,
     int TotalPages,
+    int TotalEntries,
     IEnumerable<FileSystemEntry> Entries);
