@@ -32,7 +32,7 @@ public class GetFilesHandler
         if (!string.IsNullOrWhiteSpace(query.OrderBy))
             entries = OrderEntries(entries, query.OrderBy, query.OrderDesc);
         else
-            entries = entries.OrderByDescending(x => x.Type);
+            entries = entries.OrderByDescending(x => x.Type).ThenBy(x => x.Name);
 
         entries = entries.ToArray();
 
