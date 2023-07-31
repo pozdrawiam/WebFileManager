@@ -5,7 +5,7 @@ Simple *ASP.NET Core MVC* project.
 
 ## Features
 
-- browser directores
+- browse directores
 - preview and download files
 - image thumbnails
 - multiple locations
@@ -37,4 +37,9 @@ Setup directores in `appsettings.json`:
 ## Run from source
 ```
 dotnet run --project Wfm.Web
+```
+
+## Publish
+```
+dotnet publish Wfm.Web -c Release
 ```
