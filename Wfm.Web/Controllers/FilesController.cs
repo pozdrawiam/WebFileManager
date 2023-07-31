@@ -73,22 +73,16 @@ public class FilesController : AppController
         return GetFileResult(thumbnailResult.ImagePath, "");
     }
 
-    private FileStreamResult GetFileResult(string filePath, string targetFileName)
-    {
-        string mimeType = GetMimeTypeForFileExtension(filePath);
-        var ms = new MemoryStream();
-
-        using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            fs.CopyTo(ms);
-
-        ms.Position = 0;
-
-        return File(ms, mimeType, targetFileName);
-    }
-
     private string? GetLocationName(int index)
     {
         return SettingService.Value.StorageOptions.Locations?.ElementAt(index)?.Name;
+    }
+
+    private static PhysicalFileResult GetFileResult(string filePath, string targetFileName)
+    {
+        string mimeType = GetMimeTypeForFileExtension(filePath);
+
+        return new PhysicalFileResult(filePath, mimeType) { FileDownloadName = targetFileName };
     }
 
     private static string GetMimeTypeForFileExtension(string filePath)
