@@ -11,6 +11,11 @@ Simple *ASP.NET Core MVC* project.
 - multiple locations
 - light & dark mode
 
+## Branches
+
+- develop: current changes
+- main: stable, tested version
+
 ## Dependencies
 
 - .Net 6
