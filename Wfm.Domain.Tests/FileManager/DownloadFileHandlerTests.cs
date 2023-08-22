@@ -1,6 +1,4 @@
 using System.IO;
-using Moq;
-using NUnit.Framework;
 using Wfm.Domain.Features.FileManager.DownloadFile;
 using Wfm.Domain.Services.FileSystem;
 using Wfm.Domain.Services.Settings;

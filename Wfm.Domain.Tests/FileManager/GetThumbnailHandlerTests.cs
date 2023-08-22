@@ -1,6 +1,4 @@
 using System.IO;
-using Moq;
-using NUnit.Framework;
 using Wfm.Domain.Consts;
 using Wfm.Domain.Features.FileManager.GetThumbnail;
 using Wfm.Domain.Services;

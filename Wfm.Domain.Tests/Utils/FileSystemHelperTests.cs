@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using Wfm.Domain.Utils;
 
 namespace Wfm.Domain.Tests.Utils;

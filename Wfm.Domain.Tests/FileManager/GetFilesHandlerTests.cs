@@ -1,6 +1,4 @@
 using System;
-using Moq;
-using NUnit.Framework;
 using Wfm.Domain.Features.FileManager.GetFiles;
 using Wfm.Domain.Services.FileSystem;
 using Wfm.Domain.Services.Settings;
