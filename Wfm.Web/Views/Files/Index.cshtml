@@ -16,19 +16,19 @@
     {
         return desc 
             ? Html.ActionLink("▼", "Index", "Files", 
-                new { LocationIndex = Model.LocationIndex, RelativePath = Model.RelativePath, OrderBy = orderBy, OrderDesc = true })
+                new { Model.LocationIndex, Model.RelativePath, OrderBy = orderBy, OrderDesc = true })
             : Html.ActionLink("▲", "Index", "Files", 
-                new { LocationIndex = Model.LocationIndex, RelativePath = Model.RelativePath, OrderBy = orderBy });
-    };
+                new { Model.LocationIndex, Model.RelativePath, OrderBy = orderBy });
+    }
 }
 
 <nav aria-label="breadcrumb">
     <ul>
         <li>@Html.ActionLink("Home", "Index", "Home")</li>
-        <li>@Html.ActionLink(ViewBag.LocationName as string, "Index", "Files", new { LocationIndex = Model.LocationIndex })</li>
+        <li>@Html.ActionLink(ViewBag.LocationName as string ?? string.Empty, "Index", "Files", new { Model.LocationIndex })</li>
         @foreach (KeyValuePair<string, string> item in FileSystemHelper.ConvertPathToList(Model.RelativePath))
         {
-            <li>@Html.ActionLink(item.Key, "Index", "Files", new { LocationIndex = Model.LocationIndex, RelativePath = item.Value })</li>
+            <li>@Html.ActionLink(item.Key, "Index", "Files", new { Model.LocationIndex, RelativePath = item.Value })</li>
         }
     </ul>
 </nav>
@@ -77,20 +77,19 @@
                     <td class="thumbnail">
                         @if (ThumbnailConsts.Extensions.Contains(entry.Extension.ToLower()))
                         {
-                            <img src='@Url.Action("Thumbnail", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })'
-                                loading="lazy"
-                                style="max-width: @(ThumbnailConsts.MaxWidth)px; max-height: @(ThumbnailConsts.MaxHeight)px" />
+                            <img src='@Url.Action("Thumbnail", "Files", new { Model.LocationIndex, RelativeFilePath = entry.RelativePath })' 
+                                 loading="lazy" style="max-width: @(ThumbnailConsts.MaxWidth)px; max-height: @(ThumbnailConsts.MaxHeight)px" alt=""/>
                         }
                     </td>
                     <td>
                         @if (entry.Type == FileSystemEntryType.Directory)
                         {
-                            @Html.ActionLink(entry.Name, "Index", "Files", new { LocationIndex = Model.LocationIndex, RelativePath = entry.RelativePath })
+                            @Html.ActionLink(entry.Name, "Index", "Files", new { Model.LocationIndex, entry.RelativePath })
                             <text> / </text>
                         }
                         else
                         {
-                            @Html.ActionLink(entry.Name, "Preview", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })
+                            @Html.ActionLink(entry.Name, "Preview", "Files", new { Model.LocationIndex, RelativeFilePath = entry.RelativePath })
                         }
                     </td>
                     <td>
@@ -104,10 +103,10 @@
                     <td>
                         @if (entry.Type == FileSystemEntryType.File)
                         {
-                            @Html.ActionLink("Preview", "Preview", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath }, 
+                            @Html.ActionLink("Preview", "Preview", "Files", new { Model.LocationIndex, RelativeFilePath = entry.RelativePath }, 
                                 new { target = "_blank" })
                             <text> | </text>
-                            @Html.ActionLink("Download", "Download", "Files", new { LocationIndex = Model.LocationIndex, RelativeFilePath = entry.RelativePath })
+                            @Html.ActionLink("Download", "Download", "Files", new { Model.LocationIndex, RelativeFilePath = entry.RelativePath })
                         }
                     </td>
                 </tr>
@@ -118,12 +117,12 @@
     @if (Model.Page > 1)
     {
         @Html.ActionLink("< Previous", "Index", "Files", 
-            new { LocationIndex = Model.LocationIndex, RelativePath = Model.RelativePath, OrderBy = Model.OrderBy, OrderDesc = Model.OrderDesc, Page = Model.Page - 1 })
+            new { Model.LocationIndex, Model.RelativePath, Model.OrderBy, Model.OrderDesc, Page = Model.Page - 1 })
         @(" | ")
     }
     @if (Model.Page < Model.TotalPages)
     {
         @Html.ActionLink("Next >", "Index", "Files", 
-            new { LocationIndex = Model.LocationIndex, RelativePath = Model.RelativePath, OrderBy = Model.OrderBy, OrderDesc = Model.OrderDesc, Page = Model.Page + 1 })
+            new { Model.LocationIndex, Model.RelativePath, Model.OrderBy, Model.OrderDesc, Page = Model.Page + 1 })
     }
 </figure>
