@@ -352,5 +352,8 @@ MigrationBackup/
 # VS Code
 .vscode/
 
+# Rider
+.idea/
+
 # AppSettings
 Wfm.Web/appsettings.Development.json
