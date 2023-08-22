@@ -17,7 +17,7 @@ public class GetThumbnailHandler
 
     public GetThumbnailResult Handle(GetThumbnailQuery query)
     {
-        if (string.IsNullOrWhiteSpace(query?.ImagePath) ||
+        if (string.IsNullOrWhiteSpace(query.ImagePath) ||
             query.ImagePath.Contains(ThumbnailConsts.DirName) ||
             !ThumbnailConsts.Extensions.Contains(Path.GetExtension(query.ImagePath).ToLower().Replace(".", "")))
         {
@@ -38,6 +38,6 @@ public class GetThumbnailHandler
                 return new ("");
         }
 
-        return new GetThumbnailResult(thumbnailPath);
+        return new(thumbnailPath);
     }
 }

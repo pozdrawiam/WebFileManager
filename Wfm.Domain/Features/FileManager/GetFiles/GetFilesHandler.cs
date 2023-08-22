@@ -20,7 +20,7 @@ public class GetFilesHandler
         LocationOptions[] locations = _settingService.StorageOptions.Locations;
 
         if (query.LocationIndex > locations.Length)
-            throw new Exception("Invalid locationIndex");
+            throw new("Invalid locationIndex");
 
         string locationPath = locations[query.LocationIndex].Path;
         string path = Path.Join(locationPath, query.RelativePath);
@@ -29,10 +29,9 @@ public class GetFilesHandler
             .Where(x => x.RelativePath != ThumbnailConsts.DirName)
             .Select(x => x with { RelativePath = Path.Join(query.RelativePath, x.RelativePath) });
 
-        if (!string.IsNullOrWhiteSpace(query.OrderBy))
-            entries = OrderEntries(entries, query.OrderBy, query.OrderDesc);
-        else
-            entries = entries.OrderByDescending(x => x.Type).ThenBy(x => x.Name);
+        entries = !string.IsNullOrWhiteSpace(query.OrderBy) ? 
+            OrderEntries(entries, query.OrderBy, query.OrderDesc) : 
+            entries.OrderByDescending(x => x.Type).ThenBy(x => x.Name);
 
         entries = entries.ToArray();
 
@@ -42,7 +41,7 @@ public class GetFilesHandler
 
         entries = entries.Skip((query.Page - 1) * pageSize).Take(pageSize);
 
-        return new GetFilesResult(query.LocationIndex, query.RelativePath, query.OrderBy, query.OrderDesc, query.Page, totalPages, totalEntries, entries);
+        return new(query.LocationIndex, query.RelativePath, query.OrderBy, query.OrderDesc, query.Page, totalPages, totalEntries, entries);
     }
 
     private static IEnumerable<FileSystemEntry> OrderEntries(IEnumerable<FileSystemEntry> entries, string orderBy, bool orderDesc)
@@ -55,15 +54,8 @@ public class GetFilesHandler
             { nameof(FileSystemEntry.Extension), x => x.Extension }
         };
 
-        if (orderByMapping.ContainsKey(orderBy))
-        {
-            Func<FileSystemEntry, object> orderByExpression = orderByMapping[orderBy];
-
-            if (orderDesc)
-                entries = entries.OrderByDescending(orderByExpression);
-            else
-                entries = entries.OrderBy(orderByExpression);
-        }
+        if (orderByMapping.TryGetValue(orderBy, out Func<FileSystemEntry, object>? orderByExpression))
+            entries = orderDesc ? entries.OrderByDescending(orderByExpression) : entries.OrderBy(orderByExpression);
 
         return entries;
     }
