@@ -28,7 +28,7 @@ public class FileSystemService : IFileSystemService
                 size = fileInfo.Length;
             }
 
-            yield return new FileSystemEntry(
+            yield return new(
                 entryType,
                 Path.GetFileName(fileSystemEntry),
                 Path.GetRelativePath(directoryPath, fileSystemEntry),

@@ -28,7 +28,7 @@ public class FilesController : AppController
 
     public IActionResult Index(GetFilesQuery query)
     {
-        ViewBag.LocationName = GetLocationName(query.LocationIndex);
+        ViewBag.LocationName = GetLocationName(query.LocationIndex) ?? string.Empty;
 
         GetFilesResult result = _getFilesHandler.Value.Handle(query);
 
@@ -75,14 +75,14 @@ public class FilesController : AppController
 
     private string? GetLocationName(int index)
     {
-        return SettingService.Value.StorageOptions.Locations?.ElementAt(index)?.Name;
+        return SettingService.Value.StorageOptions.Locations.ElementAt(index).Name;
     }
 
     private static PhysicalFileResult GetFileResult(string filePath, string targetFileName)
     {
         string mimeType = GetMimeTypeForFileExtension(filePath);
 
-        return new PhysicalFileResult(filePath, mimeType) { FileDownloadName = targetFileName };
+        return new(filePath, mimeType) { FileDownloadName = targetFileName };
     }
 
     private static string GetMimeTypeForFileExtension(string filePath)
