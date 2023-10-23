@@ -48,3 +48,4 @@ dotnet run --project Wfm.Web
 ```
 dotnet publish Wfm.Web -c Release
 ```
+or use build script from _scripts_ directory.
