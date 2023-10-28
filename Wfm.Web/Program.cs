@@ -1,3 +1,4 @@
+using Serilog;
 using Wfm.Domain.Features.FileManager.DownloadFile;
 using Wfm.Domain.Features.FileManager.GetFiles;
 using Wfm.Domain.Features.FileManager.GetThumbnail;
@@ -8,6 +9,12 @@ using Wfm.Web.Core;
 using Wfm.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+builder.Services.AddLogging(x => x.ClearProviders().AddSerilog());
 
 builder.Services.AddControllersWithViews();
 
@@ -40,6 +47,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Logger.LogInformation("Starting app at {}", DateTime.Now);
+app.Logger.LogInformation("Starting app at {Date}", DateTime.Now);
 
 app.Run();
+
+Log.CloseAndFlush();

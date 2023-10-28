@@ -44,7 +44,7 @@ public class ThumbnailGeneratorService : BackgroundService
         if (imageFiles.Length == 0)
             return;
 
-        _logger.LogInformation("Generate missing thumbnails for '{}'", location.Name);
+        _logger.LogInformation("Generate missing thumbnails for '{Name}'", location.Name);
 
         int generatedThumbnails = 0;
 
@@ -52,7 +52,7 @@ public class ThumbnailGeneratorService : BackgroundService
         {
             if (timer.Elapsed > TimeLimit)
             {
-                _logger.LogInformation("Generate missing thumbnails stopped by time limit, created {} thumbnails", generatedThumbnails);
+                _logger.LogInformation("Generate missing thumbnails stopped by time limit, created {Count} thumbnails", generatedThumbnails);
                 return;
             }
 
@@ -71,14 +71,14 @@ public class ThumbnailGeneratorService : BackgroundService
                 if (!Directory.Exists(thumbnailDirectory))
                     Directory.CreateDirectory(thumbnailDirectory);
 
-                _logger.LogTrace("Generate missing thumbnail for '{}'", imageFile);
+                _logger.LogTrace("Generate missing thumbnail for '{Name}'", imageFile);
                 GenerateThumbnail(imageFile, thumbnailPath);
                 generatedThumbnails++;
             }
         }
 
         if (generatedThumbnails > 0)
-            _logger.LogInformation("Generated {} missing thumbnails for '{}'", generatedThumbnails, location.Name);
+            _logger.LogInformation("Generated {Count} missing thumbnails for '{Name}'", generatedThumbnails, location.Name);
     }
 
     private void GenerateThumbnail(string sourcePath, string destinationPath)
