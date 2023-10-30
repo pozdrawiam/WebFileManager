@@ -16,9 +16,9 @@ public class GetThumbnailHandlerTests
     [SetUp]
     public void SetUp()
     {
-        _fileSystemServiceMock = new Mock<IFileSystemService>();
-        _imageServiceMock = new Mock<IImageService>();
-        _handler = new GetThumbnailHandler(_fileSystemServiceMock.Object, _imageServiceMock.Object);
+        _fileSystemServiceMock = new();
+        _imageServiceMock = new();
+        _handler = new(_fileSystemServiceMock.Object, _imageServiceMock.Object);
     }
 
     [Test]

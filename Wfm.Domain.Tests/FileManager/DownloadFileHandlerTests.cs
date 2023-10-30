@@ -15,9 +15,9 @@ public class DownloadFileHandlerTests
     [SetUp]
     public void SetUp()
     {
-        _settingServiceMock = new Mock<ISettingService>();
-        _fileSystemServiceMock = new Mock<IFileSystemService>();
-        _handler = new DownloadFileHandler(_settingServiceMock.Object, _fileSystemServiceMock.Object);
+        _settingServiceMock = new();
+        _fileSystemServiceMock = new();
+        _handler = new(_settingServiceMock.Object, _fileSystemServiceMock.Object);
     }
 
     [Test]
