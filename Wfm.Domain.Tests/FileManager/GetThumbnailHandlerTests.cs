@@ -27,8 +27,8 @@ public class GetThumbnailHandlerTests
         var query = new GetThumbnailQuery("invalid_image_path");
 
         GetThumbnailResult result = _handler!.Handle(query);
-
-        Assert.AreEqual("", result.ImagePath);
+        
+        Assert.That(result.ImagePath, Is.EqualTo(""));
     }
 
     [Test]
@@ -43,8 +43,8 @@ public class GetThumbnailHandlerTests
         _imageServiceMock!.Setup(i => i.CreateThumbnail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>())).Returns(true);
 
         GetThumbnailResult result = _handler!.Handle(query);
-
-        Assert.AreEqual(thumbnailPath, result.ImagePath);
+        
+        Assert.That(result.ImagePath, Is.EqualTo(thumbnailPath));
     }
 
     [Test]
@@ -59,7 +59,7 @@ public class GetThumbnailHandlerTests
 
         GetThumbnailResult result = _handler!.Handle(query);
 
-        Assert.AreEqual(thumbnailPath, result.ImagePath);
+        Assert.That(result.ImagePath, Is.EqualTo(thumbnailPath));
     }
 
     [Test]
@@ -73,6 +73,6 @@ public class GetThumbnailHandlerTests
 
         GetThumbnailResult result = _handler!.Handle(query);
 
-        Assert.AreEqual("", result.ImagePath);
+        Assert.That(result.ImagePath, Is.EqualTo(""));
     }
 }

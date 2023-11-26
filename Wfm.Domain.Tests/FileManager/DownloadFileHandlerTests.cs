@@ -27,8 +27,8 @@ public class DownloadFileHandlerTests
         _settingServiceMock!.Setup(s => s.GetLocationByIndex(It.IsAny<int>())).Returns(new LocationOptions { Path = "" });
 
         DownloadFileResult result = _handler!.Handle(query);
-
-        Assert.AreEqual("", result.FilePath);
+        
+        Assert.That(result.FilePath, Is.EqualTo(""));
     }
 
     [Test]
@@ -43,7 +43,7 @@ public class DownloadFileHandlerTests
         DownloadFileResult result = _handler!.Handle(query);
 
         var expectedFilePath = Path.Join(locationPath, query.RelativeFilePath);
-        Assert.AreEqual(expectedFilePath, result.FilePath);
+        Assert.That(result.FilePath, Is.EqualTo(expectedFilePath));
     }
 
     [Test]
@@ -56,7 +56,7 @@ public class DownloadFileHandlerTests
         _fileSystemServiceMock!.Setup(f => f.IsFileExists(It.IsAny<string>())).Returns(false);
 
         DownloadFileResult result = _handler!.Handle(query);
-
-        Assert.AreEqual("", result.FilePath);
+        
+        Assert.That(result.FilePath, Is.EqualTo(""));
     }
 }

@@ -13,8 +13,8 @@ public class FileSystemHelperTests
         const string? path = null;
 
         var result = FileSystemHelper.ConvertPathToList(path!);
-
-        Assert.IsEmpty(result);
+        
+        Assert.That(result, Is.Empty);
     }
 
     [Test]
@@ -24,7 +24,7 @@ public class FileSystemHelperTests
 
         var result = FileSystemHelper.ConvertPathToList(path);
 
-        Assert.IsEmpty(result);
+        Assert.That(result, Is.Empty);
     }
 
     [Test]
@@ -33,11 +33,11 @@ public class FileSystemHelperTests
         const string path = "folder1";
 
         var result = FileSystemHelper.ConvertPathToList(path);
-
-        Assert.AreEqual(1, result.Count);
-
-        Assert.AreEqual("folder1", result[0].Key);
-        Assert.AreEqual("folder1", result[0].Value);
+        
+        Assert.That(result.Count, Is.EqualTo(1));
+        
+        Assert.That(result[0].Key, Is.EqualTo("folder1"));
+        Assert.That(result[0].Value, Is.EqualTo("folder1"));
     }
 
     [Test]
@@ -47,16 +47,16 @@ public class FileSystemHelperTests
 
         var result = FileSystemHelper.ConvertPathToList(path);
 
-        Assert.AreEqual(3, result.Count);
-
-        Assert.AreEqual("folder1", result[0].Key);
-        Assert.AreEqual("folder1", result[0].Value);
-
-        Assert.AreEqual("folder2", result[1].Key);
-        Assert.AreEqual("folder1/folder2", result[1].Value);
-
-        Assert.AreEqual("folder3", result[2].Key);
-        Assert.AreEqual("folder1/folder2/folder3", result[2].Value);
+        Assert.That(result.Count, Is.EqualTo(3));
+        
+        Assert.That(result[0].Key, Is.EqualTo("folder1"));
+        Assert.That(result[0].Value, Is.EqualTo("folder1"));
+        
+        Assert.That(result[1].Key, Is.EqualTo("folder2"));
+        Assert.That(result[1].Value, Is.EqualTo("folder1/folder2"));
+        
+        Assert.That(result[2].Key, Is.EqualTo("folder3"));
+        Assert.That(result[2].Value, Is.EqualTo("folder1/folder2/folder3"));
     }
 
     #endregion
@@ -78,7 +78,7 @@ public class FileSystemHelperTests
         string expected = $"{value} {unit}";
 
         string result = FileSystemHelper.FormatBytes(bytes);
-
-        Assert.AreEqual(expected, result);
+        
+        Assert.That(result, Is.EqualTo(expected));
     }
 }

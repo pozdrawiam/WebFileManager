@@ -49,8 +49,8 @@ public class GetFilesHandlerTests
 
         GetFilesResult result = _handler!.Handle(query);
 
-        Assert.AreEqual(query.LocationIndex, result.LocationIndex);
-        Assert.AreEqual(query.RelativePath, result.RelativePath);
-        CollectionAssert.AreEquivalent(fileSystemEntries, result.Entries);
+        Assert.That(result.LocationIndex, Is.EqualTo(query.LocationIndex));
+        Assert.That(result.RelativePath, Is.EqualTo(query.RelativePath));
+        Assert.That(result.Entries, Is.EquivalentTo(fileSystemEntries));
     }
 }
