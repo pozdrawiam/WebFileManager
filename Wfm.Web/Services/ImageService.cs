@@ -1,3 +1,5 @@
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using Wfm.Domain.Services;
 
 namespace Wfm.Web.Services;
