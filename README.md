@@ -5,7 +5,7 @@ Simple *ASP.NET Core MVC* project.
 
 ## Features
 
-- browse directores
+- browse directories
 - preview and download files
 - image thumbnails
 - multiple locations
@@ -25,7 +25,7 @@ Simple *ASP.NET Core MVC* project.
 
 ## Configuration
 
-Setup directores in `appsettings.json`:
+Setup directories in `appsettings.json`:
 
 ```json
 "Storage": {
