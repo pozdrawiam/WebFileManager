@@ -18,7 +18,7 @@ Simple *ASP.NET Core MVC* project.
 
 ## Dependencies
 
-- .Net 6
+- .Net 8
 - ImageSharp (for thumbnails)
 - frontend: pico.css
 - testing: NUnit, Moq
